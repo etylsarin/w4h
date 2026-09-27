@@ -1,14 +1,18 @@
 ---
 import Icon from '../components/Icon.astro';
 import { contact } from '../data/site';
+import { useTranslations } from '../i18n';
+
+const t = useTranslations(Astro.currentLocale);
+const f = t.contact.fields;
 ---
 
 <section class="contact" id="kontakt" aria-labelledby="demo-title">
   <div class="container">
     <div class="demo-card" data-reveal>
       <div class="demo-card__intro">
-        <h2 class="h2 h2--demo" id="demo-title">Domluvte si ukázku</h2>
-        <p class="lead">Předvedeme vám W4H a probereme, jak by fungoval na vašem oddělení, v ambulanci nebo v zařízení.</p>
+        <h2 class="h2 h2--demo" id="demo-title">{t.contact.title}</h2>
+        <p class="lead">{t.contact.lead}</p>
         <address class="contact-list">
           <strong>{contact.company}</strong>
           <a href={contact.web} rel="noopener"><Icon name="globe" />{contact.webLabel}</a>
@@ -19,48 +23,48 @@ import { contact } from '../data/site';
       {/* Formulář zatím neodesílá data. Ve skriptu níže nahraďte simulaci voláním vlastního endpointu. */}
       <form class="demo-form" action="#" method="post" novalidate data-demo-form>
         <div class="field">
-          <label class="field__label" for="f-jmeno">Jméno <span class="field__req" aria-hidden="true">*</span></label>
-          <input class="field__input" id="f-jmeno" name="jmeno" type="text" autocomplete="name" placeholder="Jan Novák" required aria-describedby="f-jmeno-err" data-msg="Vyplňte prosím jméno." />
+          <label class="field__label" for="f-jmeno">{f.name.label} <span class="field__req" aria-hidden="true">*</span></label>
+          <input class="field__input" id="f-jmeno" name="jmeno" type="text" autocomplete="name" placeholder={f.name.placeholder} required aria-describedby="f-jmeno-err" data-msg={f.name.error} />
           <p class="field__error" id="f-jmeno-err" hidden><Icon name="error" /><span></span></p>
         </div>
         <div class="field">
-          <label class="field__label" for="f-zarizeni">Zařízení <span class="field__req" aria-hidden="true">*</span></label>
-          <input class="field__input" id="f-zarizeni" name="zarizeni" type="text" autocomplete="organization" placeholder="Nemocnice, ambulance, LDN…" required aria-describedby="f-zarizeni-err" data-msg="Vyplňte prosím název zařízení." />
+          <label class="field__label" for="f-zarizeni">{f.facility.label} <span class="field__req" aria-hidden="true">*</span></label>
+          <input class="field__input" id="f-zarizeni" name="zarizeni" type="text" autocomplete="organization" placeholder={f.facility.placeholder} required aria-describedby="f-zarizeni-err" data-msg={f.facility.error} />
           <p class="field__error" id="f-zarizeni-err" hidden><Icon name="error" /><span></span></p>
         </div>
         <fieldset class="field field--full choice">
-          <legend class="field__label">Typ péče</legend>
+          <legend class="field__label">{f.careType.label}</legend>
           <div class="choice__grid">
-            <label class="choice__option"><input type="radio" name="typ" value="nemocnice" checked /><span class="choice__dot" aria-hidden="true"></span>Nemocnice</label>
-            <label class="choice__option"><input type="radio" name="typ" value="ambulance" /><span class="choice__dot" aria-hidden="true"></span>Ambulance</label>
-            <label class="choice__option"><input type="radio" name="typ" value="dlouhodoba" /><span class="choice__dot" aria-hidden="true"></span>Dlouhodobá péče</label>
+            <label class="choice__option"><input type="radio" name="typ" value="nemocnice" checked /><span class="choice__dot" aria-hidden="true"></span>{f.careType.hospital}</label>
+            <label class="choice__option"><input type="radio" name="typ" value="ambulance" /><span class="choice__dot" aria-hidden="true"></span>{f.careType.clinic}</label>
+            <label class="choice__option"><input type="radio" name="typ" value="dlouhodoba" /><span class="choice__dot" aria-hidden="true"></span>{f.careType.longTerm}</label>
           </div>
         </fieldset>
         <div class="field">
-          <label class="field__label" for="f-email">E-mail <span class="field__req" aria-hidden="true">*</span></label>
-          <input class="field__input" id="f-email" name="email" type="email" autocomplete="email" placeholder="jan.novak@nemocnice.cz" required aria-describedby="f-email-err" data-msg="Zadejte prosím platný e-mail." />
+          <label class="field__label" for="f-email">{f.email.label} <span class="field__req" aria-hidden="true">*</span></label>
+          <input class="field__input" id="f-email" name="email" type="email" autocomplete="email" placeholder={f.email.placeholder} required aria-describedby="f-email-err" data-msg={f.email.error} />
           <p class="field__error" id="f-email-err" hidden><Icon name="error" /><span></span></p>
         </div>
         <div class="field">
-          <label class="field__label" for="f-tel">Telefon</label>
-          <input class="field__input" id="f-tel" name="telefon" type="tel" autocomplete="tel" placeholder="+420" aria-describedby="f-tel-err" data-msg="Zadejte prosím platné telefonní číslo." data-pattern="^\+?[0-9 ]{9,16}$" />
+          <label class="field__label" for="f-tel">{f.phone.label}</label>
+          <input class="field__input" id="f-tel" name="telefon" type="tel" autocomplete="tel" placeholder={f.phone.placeholder} aria-describedby="f-tel-err" data-msg={f.phone.error} data-pattern="^\+?[0-9 ]{9,16}$" />
           <p class="field__error" id="f-tel-err" hidden><Icon name="error" /><span></span></p>
         </div>
         <div class="field field--full">
-          <label class="field__label" for="f-zprava">Zpráva</label>
-          <textarea class="field__input field__input--area" id="f-zprava" name="zprava" rows="3" placeholder="Pro jaké oddělení nebo pacienty řešení hledáte?"></textarea>
+          <label class="field__label" for="f-zprava">{f.message.label}</label>
+          <textarea class="field__input field__input--area" id="f-zprava" name="zprava" rows="3" placeholder={f.message.placeholder}></textarea>
         </div>
         <div class="demo-form__actions field--full">
-          <p class="demo-form__hint"><span aria-hidden="true">*</span> Povinné údaje</p>
-          <button class="btn btn--primary btn--lg" type="submit" data-submit><span class="btn__label">Odeslat žádost</span><span class="btn__spinner" aria-hidden="true"></span></button>
+          <p class="demo-form__hint"><span aria-hidden="true">*</span> {t.contact.required}</p>
+          <button class="btn btn--primary btn--lg" type="submit" data-submit><span class="btn__label">{t.contact.submit}</span><span class="btn__spinner" aria-hidden="true"></span></button>
         </div>
       </form>
 
       <div class="demo-success" data-demo-success hidden tabindex="-1">
         <span class="demo-success__icon" aria-hidden="true"><Icon name="check" /></span>
-        <h3 class="demo-success__title">Děkujeme, žádost je odeslaná.</h3>
-        <p>Ozveme se vám na uvedený e-mail nebo telefon a domluvíme termín ukázky.</p>
-        <button type="button" class="ghost-btn" data-demo-reset>Odeslat další žádost</button>
+        <h3 class="demo-success__title">{t.contact.success.title}</h3>
+        <p>{t.contact.success.text}</p>
+        <button type="button" class="ghost-btn" data-demo-reset>{t.contact.success.again}</button>
       </div>
     </div>
   </div>

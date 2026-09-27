@@ -1,49 +1,52 @@
 ---
 import Icon from './Icon.astro';
 import { contact } from '../data/site';
+import { useTranslations } from '../i18n';
+
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <footer class="site-footer">
   <div class="container">
     <div class="site-footer__grid">
       <div class="site-footer__brand">
-        <a class="brand brand--footer" href="#top" aria-label="W4H – zpět nahoru">
+        <a class="brand brand--footer" href="#top" aria-label={t.footer.homeLabel}>
           <Icon name="mark" class="brand__mark" />
           <span class="brand__name">W4H</span>
         </a>
-        <p>Watch 4 Health – systém pro kontinuální monitoring pacientů.</p>
+        <p>{t.footer.tagline}</p>
         <div class="logo-row">
           {/* Místo pro vektorové logo Preadico (dodá klient) */}
-          <span class="logo-slot">Logo Preadico</span>
-          <span class="powered">Powered by <span class="logo-slot logo-slot--sm">Scalesoft</span></span>
+          <span class="logo-slot">{t.footer.logoPlaceholder}</span>
+          <span class="powered">{t.footer.poweredBy} <span class="logo-slot logo-slot--sm">Scalesoft</span></span>
         </div>
       </div>
-      <nav class="site-footer__col" aria-label="Řešení">
-        <h2 class="site-footer__head">Řešení</h2>
-        <a href="#hospital">W4H Hospital</a>
-        <a href="#clinic">W4H Clinic</a>
-        <a href="#home">W4H Home &amp; Long Term Care</a>
+      <nav class="site-footer__col" aria-label={t.footer.solutions}>
+        <h2 class="site-footer__head">{t.footer.solutions}</h2>
+        <a href="#hospital">{t.solutions.items.hospital.title}</a>
+        <a href="#clinic">{t.solutions.items.clinic.title}</a>
+        <a href="#home">{t.solutions.items.home.title}</a>
       </nav>
-      <nav class="site-footer__col" aria-label="Produkt">
-        <h2 class="site-footer__head">Produkt</h2>
-        <a href="#jak">Jak to funguje</a>
-        <a href="#zarizeni">Zařízení</a>
-        <a href="#kontakt">Domluvit ukázku</a>
+      <nav class="site-footer__col" aria-label={t.footer.product}>
+        <h2 class="site-footer__head">{t.footer.product}</h2>
+        <a href="#jak">{t.nav.jak}</a>
+        <a href="#zarizeni">{t.nav.zarizeni}</a>
+        <a href="#kontakt">{t.common.bookDemo}</a>
       </nav>
       <div class="site-footer__col">
-        <h2 class="site-footer__head">Kontakt</h2>
+        <h2 class="site-footer__head">{t.footer.contact}</h2>
         <span>{contact.company}</span>
         <a href={contact.web} rel="noopener">{contact.webLabel}</a>
         <a href={contact.phone}>{contact.phoneLabel}</a>
       </div>
     </div>
     <div class="site-footer__bottom">
-      <p>© <span data-year>{new Date().getFullYear()}</span> Preadico. Všechna práva vyhrazena.</p>
+      <p>© <span data-year>{new Date().getFullYear()}</span> {t.footer.rights}</p>
       {/* Právní stránky zatím neexistují – doplňte odkazy. */}
       <ul class="site-footer__legal">
-        <li><a href="#">Ochrana osobních údajů</a></li>
-        <li><a href="#">Cookies</a></li>
-        <li><a href="#">Právní informace</a></li>
+        <li><a href="#">{t.footer.legal.privacy}</a></li>
+        <li><a href="#">{t.footer.legal.cookies}</a></li>
+        <li><a href="#">{t.footer.legal.terms}</a></li>
       </ul>
     </div>
   </div>

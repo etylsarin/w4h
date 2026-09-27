@@ -1,11 +1,20 @@
-<section class="trust" aria-label="Na čem W4H stojí">
+---
+import { useTranslations } from '../i18n';
+
+const t = useTranslations(Astro.currentLocale);
+const [firstLine, ...otherLines] = t.trust.departments;
+---
+
+<section class="trust" aria-label={t.trust.label}>
   <div class="container">
     <ul class="trust__row" data-stagger>
       {/* Znění certifikace MDR potvrdí klient */}
-      <li class="trust__item" data-reveal><span class="trust__mark">MDR</span><span class="trust__text">certifikovaný zdravotnický prostředek</span></li>
-      <li class="trust__item" data-reveal><span class="trust__mark">EWS</span><span class="trust__text">britská metodika včasného varování</span></li>
-      <li class="trust__item" data-reveal><span class="trust__mark">BLE</span><span class="trust__text">připojí standardní zařízení</span></li>
-      <li class="trust__item trust__item--wide" data-reveal><span class="trust__mark trust__mark--small">Interna · Chirurgie<br />Rehabilitace · LDN</span><span class="trust__text">oddělení, pro která je W4H vhodný</span></li>
+      <li class="trust__item" data-reveal><span class="trust__mark">MDR</span><span class="trust__text">{t.trust.mdr}</span></li>
+      <li class="trust__item" data-reveal><span class="trust__mark">EWS</span><span class="trust__text">{t.trust.ews}</span></li>
+      <li class="trust__item" data-reveal><span class="trust__mark">BLE</span><span class="trust__text">{t.trust.ble}</span></li>
+      <li class="trust__item trust__item--wide" data-reveal>
+        <span class="trust__mark trust__mark--small">{firstLine}{otherLines.map((line) => <><br />{line}</>)}</span><span class="trust__text">{t.trust.departmentsText}</span>
+      </li>
     </ul>
   </div>
 </section>

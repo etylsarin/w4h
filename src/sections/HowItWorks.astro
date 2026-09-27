@@ -7,44 +7,37 @@ import watch from '../assets/img/w4h-watch.svg';
 import bpMonitor from '../assets/img/ble-blood-pressure-monitor.svg';
 import gateway from '../assets/img/w4h-gateway.svg';
 import ward from '../assets/img/ui-virtual-ward-tablet.svg';
+import { useTranslations, type Dictionary } from '../i18n';
 
-type StepImage = { src: ImageMetadata; alt: string; x: number; y: number; w: number; delay?: 'late' };
+const t = useTranslations(Astro.currentLocale);
 
-const steps: { title: string; text: string; images: StepImage[] }[] = [
+type StepImage = { src: ImageMetadata; alt: keyof Dictionary['how']['alt']; x: number; y: number; w: number; delay?: 'late' };
+
+const steps: { key: keyof Dictionary['how']['steps']; images: StepImage[] }[] = [
   {
-    title: 'Přiřazení pacienta',
-    text: 'Personál načte 2D kód z identifikačního náramku a přiřadí pacientovi hodinky.',
+    key: 'assign',
     images: [
-      { src: wristband, alt: 'Identifikační náramek s 2D kódem', x: -2.73, y: 23.64, w: 86.36 },
-      { src: scanner, alt: 'Ruční čtečka 2D kódů', x: 50, y: 18.18, w: 58.18, delay: 'late' },
+      { src: wristband, alt: 'wristband', x: -2.73, y: 23.64, w: 86.36 },
+      { src: scanner, alt: 'scanner', x: 50, y: 18.18, w: 58.18, delay: 'late' },
     ],
   },
   {
-    title: 'Měření',
-    text: 'Hodinky měří vitální funkce, BLE zařízení jako tlakoměr nebo váha doplní své hodnoty.',
+    key: 'measure',
     images: [
-      { src: watch, alt: 'Hodinky W4H', x: -4.55, y: -6.36, w: 104.55 },
-      { src: bpMonitor, alt: 'Tlakoměr s manžetou', x: 47.27, y: 53.64, w: 63.64, delay: 'late' },
+      { src: watch, alt: 'watch', x: -4.55, y: -6.36, w: 104.55 },
+      { src: bpMonitor, alt: 'bpMonitor', x: 47.27, y: 53.64, w: 63.64, delay: 'late' },
     ],
   },
-  {
-    title: 'Sběr dat',
-    text: 'Datová brána W4H sbírá naměřené hodnoty ze zařízení ve svém okolí.',
-    images: [{ src: gateway, alt: 'Datová brána W4H', x: -4.55, y: 11.82, w: 109.09 }],
-  },
-  {
-    title: 'Vyhodnocení a upozornění',
-    text: 'Virtuální oddělení, ambulance nebo dohledové centrum seřadí pacienty podle stavu a upozorní sestru či lékaře.',
-    images: [{ src: ward, alt: 'Virtuální oddělení na tabletu', x: -10.91, y: 20.91, w: 121.82 }],
-  },
+  { key: 'collect', images: [{ src: gateway, alt: 'gateway', x: -4.55, y: 11.82, w: 109.09 }] },
+  { key: 'evaluate', images: [{ src: ward, alt: 'ward', x: -10.91, y: 20.91, w: 121.82 }] },
 ];
 ---
 
 <section class="section how" id="jak" aria-labelledby="how-title">
   <div class="container">
     <header class="section-head">
-      <h2 class="h2" id="how-title" data-reveal>Jak to funguje</h2>
-      <p class="lead" data-reveal>Od zápěstí pacienta až na obrazovku sestry – ve čtyřech krocích.</p>
+      <h2 class="h2" id="how-title" data-reveal>{t.how.title}</h2>
+      <p class="lead" data-reveal>{t.how.lead}</p>
     </header>
     <div class="steps" data-steps>
       <span class="steps__line" aria-hidden="true"><span class="steps__progress"></span></span>
@@ -52,12 +45,12 @@ const steps: { title: string; text: string; images: StepImage[] }[] = [
         {steps.map((step, i) => (
           <li class="step">
             <Vis class="step__visual" variant="step" circle={{ x: 0, y: 0, w: 100, tint: 'ice' }}>
-              {step.images.map((img) => <VisImage {...img} />)}
+              {step.images.map((img) => <VisImage {...img} alt={t.how.alt[img.alt]} />)}
             </Vis>
             <div class="step__copy">
               <span class="step__num">{String(i + 1).padStart(2, '0')}</span>
-              <h3 class="step__title">{step.title}</h3>
-              <p class="step__text">{step.text}</p>
+              <h3 class="step__title">{t.how.steps[step.key].title}</h3>
+              <p class="step__text">{t.how.steps[step.key].text}</p>
             </div>
           </li>
         ))}

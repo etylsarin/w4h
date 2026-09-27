@@ -1,10 +1,5 @@
-/** Main navigation: section anchors shared by the header, mobile menu and scrollspy. */
-export const nav = [
-  { id: 'reseni', label: 'Řešení' },
-  { id: 'jak', label: 'Jak to funguje' },
-  { id: 'zarizeni', label: 'Zařízení' },
-  { id: 'kontakt', label: 'Kontakt' },
-] as const;
+/** Section anchors in the main navigation; labels live in src/i18n under `nav`. */
+export const navIds = ['reseni', 'jak', 'zarizeni', 'kontakt'] as const;
 
 export const contact = {
   company: 'Preadico',

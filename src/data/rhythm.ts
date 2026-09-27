@@ -30,8 +30,3 @@ export const readings: Reading[] = T.map((t, i) => {
     ktState: i === 23 ? 'alert' : i === 22 ? 'watch' : 'ok',
   };
 });
-
-export const stateLabel: Record<VitalState, string> = { ok: 'v mezích', watch: 'sledovat', alert: 'mimo meze' };
-
-/** Czech decimal comma: 36.5 → "36,5". */
-export const formatDecimal = (n: number) => String(n).replace('.', ',');

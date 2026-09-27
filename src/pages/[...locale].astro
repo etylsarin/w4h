@@ -1,4 +1,6 @@
 ---
+/** The one-page site, built once per language: / (Czech) and /en/ (English). */
+import type { GetStaticPaths } from 'astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../sections/Hero.astro';
 import Facts from '../sections/Facts.astro';
@@ -12,12 +14,13 @@ import Rhythm from '../sections/Rhythm.astro';
 import Devices from '../sections/Devices.astro';
 import Trust from '../sections/Trust.astro';
 import Contact from '../sections/Contact.astro';
+import { defaultLocale, locales } from '../i18n';
+
+export const getStaticPaths = (() =>
+  locales.map((locale) => ({ params: { locale: locale === defaultLocale ? undefined : locale } }))) satisfies GetStaticPaths;
 ---
 
-<BaseLayout
-  title="W4H – kontinuální monitoring pacientů | Preadico"
-  description="Watch 4 Health: systém, který každých 15 minut automaticky měří, zapisuje a vyhodnocuje 4 základní vitální funkce pacienta a při zhoršení stavu upozorní sestru nebo lékaře."
->
+<BaseLayout>
   <Hero />
   <Facts />
   <Why />

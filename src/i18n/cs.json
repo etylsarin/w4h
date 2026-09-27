@@ -1,0 +1,238 @@
+{
+  "meta": {
+    "title": "W4H – kontinuální monitoring pacientů | Preadico",
+    "description": "Watch 4 Health: systém, který každých 15 minut automaticky měří, zapisuje a vyhodnocuje 4 základní vitální funkce pacienta a při zhoršení stavu upozorní sestru nebo lékaře."
+  },
+  "common": {
+    "skipLink": "Přeskočit na obsah",
+    "bookDemo": "Domluvit ukázku",
+    "outOfRange": "Metrika mimo meze",
+    "samplePatient": "Vzorový, Milan",
+    "sampleRoom": "Pokoj 4"
+  },
+  "header": {
+    "homeLabel": "W4H – úvod",
+    "navLabel": "Hlavní navigace",
+    "mobileNavLabel": "Mobilní navigace",
+    "languageLabel": "Jazyk webu",
+    "menuOpen": "Otevřít menu",
+    "menuClose": "Zavřít menu"
+  },
+  "nav": {
+    "reseni": "Řešení",
+    "jak": "Jak to funguje",
+    "zarizeni": "Zařízení",
+    "kontakt": "Kontakt"
+  },
+  "vitals": {
+    "tags": {
+      "temperature": "T",
+      "bloodPressure": "KT",
+      "spo2": "SpO₂",
+      "heartRate": "ST"
+    },
+    "units": {
+      "temperature": "{value} °C",
+      "bloodPressure": "{value} mmHg",
+      "spo2": "{value} %",
+      "heartRate": "{value} tepů/min"
+    }
+  },
+  "hero": {
+    "eyebrow": "Watch 4 Health",
+    "title": "Kontinuální monitoring pacientů",
+    "tagline": "Řešení, které se stane standardem",
+    "lead": "Systém W4H každých 15 minut automaticky měří, zapisuje a vyhodnocuje 4 základní vitální funkce pacienta – a když se jeho stav zhorší, pošle notifikaci sestře nebo lékaři.",
+    "watchAlt": "Hodinky W4H s QR kódem na displeji a černým řemínkem",
+    "alertLabel": "Upozornění: Vzorový, Milan, pokoj 4, krevní tlak 89/65 mmHg mimo meze"
+  },
+  "facts": {
+    "label": "W4H v číslech",
+    "vitals": "vitální funkce",
+    "interval": "interval měření",
+    "intervalUnit": "min",
+    "areas": "oblasti péče"
+  },
+  "why": {
+    "eyebrow": "Proč W4H",
+    "title": "Pacient pod dohledem i mezi vizitami",
+    "lead": "Hodinky a datová brána W4H hlídají vitální funkce kontinuálně. Personál vidí, kdo potřebuje pozornost nejdřív.",
+    "benefits": {
+      "safety": { "title": "Vyšší bezpečí pacientů", "text": "Kontinuální monitoring násobně zvyšuje bezpečí pacientů." },
+      "quality": { "title": "Vyšší kvalita péče", "text": "Vitální funkce se měří, zapisují a vyhodnocují automaticky." },
+      "efficiency": { "title": "Efektivnější péče", "text": "Zefektivňuje práci sester a lékařů i plánování návštěv." },
+      "versatility": { "title": "Jeden systém, více možností", "text": "Pro nemocniční, domácí i následnou péči." }
+    },
+    "alt": {
+      "watch": "Hodinky W4H",
+      "gateway": "Datová brána W4H – světle šedá krabička se zeleným nápisem W4h"
+    }
+  },
+  "solutions": {
+    "title": "Tři řešení pro tři oblasti péče",
+    "lead": "W4H nasadíte v nemocnici, v ambulanci i v zařízeních dlouhodobé péče. Každá verze je přizpůsobená tomu, jak se v daném prostředí pečuje.",
+    "more": "Více o řešení",
+    "items": {
+      "hospital": {
+        "title": "W4H Hospital",
+        "text": "Akutní péče v nemocnicích – virtuální oddělení s notifikacemi pro sestry.",
+        "alt": "Tablet s virtuálním oddělením W4H"
+      },
+      "clinic": {
+        "title": "W4H Clinic",
+        "text": "Ambulantní a domácí využití – pro pacienty se srdečním selháním i těhotné pacientky.",
+        "alt": "Telefon s aplikací pro pacienty a grafy vitálních funkcí"
+      },
+      "home": {
+        "title": "W4H Home & Long Term Care",
+        "text": "LDN, domovy pro seniory a rehabilitační zařízení – vitální funkce, pády i SOS.",
+        "alt": "Ilustrace zařízení dlouhodobé péče"
+      }
+    }
+  },
+  "details": {
+    "hospital": {
+      "tag": "Akutní péče v nemocnicích",
+      "lead": "Virtuální oddělení ukáže sestrám a lékařům, kterého pacienta řešit nejdřív. Kontinuální monitoring zefektivňuje jejich práci.",
+      "features": [
+        { "title": "Včasné varování", "text": "Využívá britskou metodiku EWS (Early Warning System)." },
+        { "title": "Virtuální oddělení", "text": "Přehled pacientů seřazený podle vyhodnoceného stavu." },
+        { "title": "Měření bez ruční práce", "text": "4 základní vitální funkce každých 15 minut – změřené, zapsané, vyhodnocené." },
+        { "title": "Sestra ví hned", "text": "Při zhoršení stavu pacienta dostane notifikaci." },
+        { "title": "Rychlé přiřazení", "text": "Zdravotní náramek s 2D kódem spojí hodinky s pacientem." },
+        { "title": "Otevřené připojení", "text": "Datová brána připojí i další standardní zařízení (BLE)." }
+      ],
+      "footLabel": "Vhodné pro",
+      "footText": "interní, chirurgická, rehabilitační a LDN oddělení",
+      "alt": "Virtuální oddělení W4H na tabletu: pacienti seřazení podle stavu",
+      "notice": { "title": "Notifikace sestře", "text": "Zhoršení stavu · Pokoj 4" }
+    },
+    "clinic": {
+      "tag": "Ambulantní a domácí využití",
+      "lead": "Pro chronické pacienty se srdečním selháním, kterých stále přibývá, a pro těhotné pacientky.",
+      "features": [
+        { "title": "Nepravidelný tep", "text": "Měří a s využitím AI vyhodnocuje nepravidelnosti tepu, sekvence ukládá." },
+        { "title": "Individuální léčebný plán", "text": "Co a kdy měřit, včetně subjektivního hodnocení stavu." },
+        { "title": "Péče o těhotné pacientky", "text": "Vedle vitálních funkcí i krevní tlak a automatická triáž." },
+        { "title": "Upozornění pro lékaře", "text": "Při zhoršení stavu přijde praktickému lékaři notifikace." },
+        { "title": "Data z dalších zařízení", "text": "Hodnoty např. z váhy nebo tlakoměru se zapíší automaticky." },
+        { "title": "Rychlý kontakt", "text": "Chat i video s pacientem přímo ve virtuální ambulanci." }
+      ],
+      "footLabel": "Výsledek",
+      "footText": "pacienty zvete podle skutečného stavu a návštěvy plánujete efektivně",
+      "alt": {
+        "ecg": "Záznam EKG na tabletu s vyznačeným úsekem nepravidelného tepu",
+        "phone": "Aplikace pro pacienty v telefonu"
+      }
+    },
+    "home": {
+      "tag": "LDN, domovy pro seniory, rehabilitační zařízení",
+      "lead": "Pro zařízení dlouhodobé péče a pro klienty doma. W4H hlídá vitální funkce i pády a virtuální dohledové centrum zajistí pomoc tam, kde je potřeba.",
+      "features": [
+        { "title": "Vitální funkce, pády i SOS", "text": "Základní vitální funkce, monitoring pádů a SOS tlačítko." },
+        { "title": "Připomínky pro klienty", "text": "Notifikace na užití léků, návštěvu lékaře nebo ověření stavu." },
+        { "title": "Virtuální dohledové centrum", "text": "Zajišťuje efektivní pomoc ve chvíli, kdy je potřeba." }
+      ],
+      "alt": {
+        "facility": "Ilustrace budovy pro dlouhodobou péči",
+        "watch": "Hodinky W4H"
+      },
+      "sos": "Přivolání pomoci",
+      "reminder": "Připomínka léků"
+    }
+  },
+  "how": {
+    "title": "Jak to funguje",
+    "lead": "Od zápěstí pacienta až na obrazovku sestry – ve čtyřech krocích.",
+    "steps": {
+      "assign": { "title": "Přiřazení pacienta", "text": "Personál načte 2D kód z identifikačního náramku a přiřadí pacientovi hodinky." },
+      "measure": { "title": "Měření", "text": "Hodinky měří vitální funkce, BLE zařízení jako tlakoměr nebo váha doplní své hodnoty." },
+      "collect": { "title": "Sběr dat", "text": "Datová brána W4H sbírá naměřené hodnoty ze zařízení ve svém okolí." },
+      "evaluate": { "title": "Vyhodnocení a upozornění", "text": "Virtuální oddělení, ambulance nebo dohledové centrum seřadí pacienty podle stavu a upozorní sestru či lékaře." }
+    },
+    "alt": {
+      "wristband": "Identifikační náramek s 2D kódem",
+      "scanner": "Ruční čtečka 2D kódů",
+      "watch": "Hodinky W4H",
+      "bpMonitor": "Tlakoměr s manžetou",
+      "gateway": "Datová brána W4H",
+      "ward": "Virtuální oddělení na tabletu"
+    }
+  },
+  "rhythm": {
+    "title": "Každých 15 minut. Automaticky.",
+    "lead": "Hodinky W4H měří čtyři vitální funkce v pravidelném rytmu. Každé měření se zapíše a vyhodnotí – a když hodnota vybočí z mezí, sestra dostane notifikaci.",
+    "patientMeta": "Pokoj 4 · dnešní měření",
+    "legendLabel": "Legenda",
+    "states": {
+      "ok": "V mezích",
+      "watch": "Sledovat",
+      "alert": "Mimo meze"
+    },
+    "columnsLabel": "Měření po 15 minutách, {from}–{to}",
+    "columnLabel": "{time}: teplota {temperature} °C, krevní tlak {bloodPressure} mmHg ({state}), saturace {spo2} %, tep {heartRate} tepů za minutu",
+    "notified": "Notifikace odeslána sestře",
+    "note": "Ukázková data. Najeďte na sloupec nebo ho vyberte klávesou Tab.",
+    "replay": "Přehrát znovu"
+  },
+  "devices": {
+    "title": "Zařízení",
+    "lead": "Hodinky, datová brána a náramek tvoří základ. Standardní BLE zařízení se připojí k bráně.",
+    "items": {
+      "watch": { "title": "Hodinky W4H", "text": "Automaticky měří 4 základní vitální funkce každých 15 minut." },
+      "gateway": { "title": "Datová brána W4H", "text": "Sbírá data z hodinek a připojí i další standardní zařízení přes BLE." },
+      "wristband": { "title": "Náramek a čtečka", "text": "Zdravotní náramek s 2D kódem pro rychlé přiřazení hodinek pacientovi." },
+      "ble": { "title": "BLE zařízení", "text": "Kompatibilní tlakoměr, váha a další standardně komunikující zařízení." }
+    },
+    "alt": {
+      "watch": "Hodinky W4H",
+      "gateway": "Datová brána W4H",
+      "wristband": "Identifikační náramek s 2D kódem",
+      "scanner": "Čtečka 2D kódů",
+      "bpMonitor": "Tlakoměr s manžetou",
+      "scale": "Osobní váha"
+    }
+  },
+  "trust": {
+    "label": "Na čem W4H stojí",
+    "mdr": "certifikovaný zdravotnický prostředek",
+    "ews": "britská metodika včasného varování",
+    "ble": "připojí standardní zařízení",
+    "departments": ["Interna · Chirurgie", "Rehabilitace · LDN"],
+    "departmentsText": "oddělení, pro která je W4H vhodný"
+  },
+  "contact": {
+    "title": "Domluvte si ukázku",
+    "lead": "Předvedeme vám W4H a probereme, jak by fungoval na vašem oddělení, v ambulanci nebo v zařízení.",
+    "fields": {
+      "name": { "label": "Jméno", "placeholder": "Jan Novák", "error": "Vyplňte prosím jméno." },
+      "facility": { "label": "Zařízení", "placeholder": "Nemocnice, ambulance, LDN…", "error": "Vyplňte prosím název zařízení." },
+      "careType": { "label": "Typ péče", "hospital": "Nemocnice", "clinic": "Ambulance", "longTerm": "Dlouhodobá péče" },
+      "email": { "label": "E-mail", "placeholder": "jan.novak@nemocnice.cz", "error": "Zadejte prosím platný e-mail." },
+      "phone": { "label": "Telefon", "placeholder": "+420", "error": "Zadejte prosím platné telefonní číslo." },
+      "message": { "label": "Zpráva", "placeholder": "Pro jaké oddělení nebo pacienty řešení hledáte?" }
+    },
+    "required": "Povinné údaje",
+    "submit": "Odeslat žádost",
+    "success": {
+      "title": "Děkujeme, žádost je odeslaná.",
+      "text": "Ozveme se vám na uvedený e-mail nebo telefon a domluvíme termín ukázky.",
+      "again": "Odeslat další žádost"
+    }
+  },
+  "footer": {
+    "homeLabel": "W4H – zpět nahoru",
+    "tagline": "Watch 4 Health – systém pro kontinuální monitoring pacientů.",
+    "logoPlaceholder": "Logo Preadico",
+    "poweredBy": "Powered by",
+    "solutions": "Řešení",
+    "product": "Produkt",
+    "contact": "Kontakt",
+    "rights": "Preadico. Všechna práva vyhrazena.",
+    "legal": {
+      "privacy": "Ochrana osobních údajů",
+      "cookies": "Cookies",
+      "terms": "Právní informace"
+    }
+  }
+}

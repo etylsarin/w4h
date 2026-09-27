@@ -2,20 +2,24 @@
 import Icon from '../components/Icon.astro';
 import watch from '../assets/img/w4h-watch.svg';
 import seal from '../assets/img/seal-mdr-ring.svg';
+import { format, formatNumber, useTranslations } from '../i18n';
+
+const t = useTranslations(Astro.currentLocale);
+const { tags, units } = t.vitals;
 ---
 
 <section class="hero" id="top" aria-labelledby="hero-title">
   <div class="container hero__grid">
     <div class="hero__copy">
-      <p class="eyebrow" data-enter style="--d:0ms">Watch 4 Health</p>
-      <h1 class="hero__title" id="hero-title" data-enter style="--d:80ms">Kontinuální monitoring pacientů</h1>
-      <p class="hero__tagline" data-enter style="--d:180ms">Řešení, které se stane standardem</p>
-      <p class="hero__lead" data-enter style="--d:260ms">Systém W4H každých 15 minut automaticky měří, zapisuje a vyhodnocuje 4 základní vitální funkce pacienta – a když se jeho stav zhorší, pošle notifikaci sestře nebo lékaři.</p>
+      <p class="eyebrow" data-enter style="--d:0ms">{t.hero.eyebrow}</p>
+      <h1 class="hero__title" id="hero-title" data-enter style="--d:80ms">{t.hero.title}</h1>
+      <p class="hero__tagline" data-enter style="--d:180ms">{t.hero.tagline}</p>
+      <p class="hero__lead" data-enter style="--d:260ms">{t.hero.lead}</p>
       <div class="hero__actions" data-enter style="--d:340ms">
-        <a class="btn btn--primary btn--lg" href="#kontakt">Domluvit ukázku</a>
+        <a class="btn btn--primary btn--lg" href="#kontakt">{t.common.bookDemo}</a>
         <a class="play-link" href="#jak">
           <span class="play-link__disc" aria-hidden="true"><Icon name="play" /></span>
-          Jak to funguje
+          {t.nav.jak}
         </a>
       </div>
     </div>
@@ -23,26 +27,26 @@ import seal from '../assets/img/seal-mdr-ring.svg';
     <div class="hero__visual vis vis--hero" data-hero-visual data-enter style="--d:200ms">
       <span class="vis__circle hero__circle" style="--c:var(--ice)" aria-hidden="true"></span>
       <div class="layer hero__watch" style="--depth:.6">
-        <img src={watch.src} width={watch.width} height={watch.height} alt="Hodinky W4H s QR kódem na displeji a černým řemínkem" />
+        <img src={watch.src} width={watch.width} height={watch.height} alt={t.hero.watchAlt} />
       </div>
       <div class="layer hero__seal" style="--depth:1.4">
         <div class="seal"><img src={seal.src} width={seal.width} height={seal.height} alt="" /><span class="seal__text">MDR</span></div>
       </div>
       <div class="layer hero__alert" style="--depth:1.1">
-        <div class="alert-card float" role="img" aria-label="Upozornění: Vzorový, Milan, pokoj 4, krevní tlak 89/65 mmHg mimo meze">
-          <div class="alert-card__head"><Icon name="alert" />Metrika mimo meze</div>
+        <div class="alert-card float" role="img" aria-label={t.hero.alertLabel}>
+          <div class="alert-card__head"><Icon name="alert" />{t.common.outOfRange}</div>
           <div class="alert-card__body">
-            <div class="alert-card__row"><span class="alert-card__name">Vzorový, Milan</span><span class="alert-card__room">Pokoj 4</span></div>
-            <div class="vital vital--alert"><span class="vital__tag">KT</span><span class="vital__value">89/65 mmHg</span></div>
+            <div class="alert-card__row"><span class="alert-card__name">{t.common.samplePatient}</span><span class="alert-card__room">{t.common.sampleRoom}</span></div>
+            <div class="vital vital--alert"><span class="vital__tag">{tags.bloodPressure}</span><span class="vital__value">{format(units.bloodPressure, { value: '89/65' })}</span></div>
           </div>
         </div>
       </div>
       <div class="layer hero__chips" style="--depth:1.3">
-        <div class="chip float" style="--f:1.4s"><span class="vital__tag">SpO₂</span><span class="vital__value">97 %</span></div>
-        <div class="chip chip--offset float" style="--f:.6s"><span class="vital__tag">ST</span><span class="vital__value">72 tepů/min</span></div>
+        <div class="chip float" style="--f:1.4s"><span class="vital__tag">{tags.spo2}</span><span class="vital__value">{format(units.spo2, { value: 97 })}</span></div>
+        <div class="chip chip--offset float" style="--f:.6s"><span class="vital__tag">{tags.heartRate}</span><span class="vital__value">{format(units.heartRate, { value: 72 })}</span></div>
       </div>
       <div class="layer hero__tchip" style="--depth:.9">
-        <div class="chip float" style="--f:2.1s"><span class="vital__tag">T</span><span class="vital__value">36,5 °C</span></div>
+        <div class="chip float" style="--f:2.1s"><span class="vital__tag">{tags.temperature}</span><span class="vital__value">{format(units.temperature, { value: formatNumber(36.5, Astro.currentLocale) })}</span></div>
       </div>
     </div>
   </div>

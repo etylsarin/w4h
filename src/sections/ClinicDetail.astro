@@ -4,31 +4,26 @@ import Vis from '../components/Vis.astro';
 import VisImage from '../components/VisImage.astro';
 import ecg from '../assets/img/ui-ecg-report-tablet.svg';
 import phone from '../assets/img/ui-patient-app-phone.svg';
+import { useTranslations } from '../i18n';
 
-const features = [
-  { title: 'Nepravidelný tep', text: 'Měří a s využitím AI vyhodnocuje nepravidelnosti tepu, sekvence ukládá.' },
-  { title: 'Individuální léčebný plán', text: 'Co a kdy měřit, včetně subjektivního hodnocení stavu.' },
-  { title: 'Péče o těhotné pacientky', text: 'Vedle vitálních funkcí i krevní tlak a automatická triáž.' },
-  { title: 'Upozornění pro lékaře', text: 'Při zhoršení stavu přijde praktickému lékaři notifikace.' },
-  { title: 'Data z dalších zařízení', text: 'Hodnoty např. z váhy nebo tlakoměru se zapíší automaticky.' },
-  { title: 'Rychlý kontakt', text: 'Chat i video s pacientem přímo ve virtuální ambulanci.' },
-];
+const t = useTranslations(Astro.currentLocale);
+const d = t.details.clinic;
 ---
 
 <SolutionDetail
   id="clinic"
-  tag="Ambulantní a domácí využití"
-  title="W4H Clinic"
-  lead="Pro chronické pacienty se srdečním selháním, kterých stále přibývá, a pro těhotné pacientky."
-  features={features}
+  tag={d.tag}
+  title={t.solutions.items.clinic.title}
+  lead={d.lead}
+  features={d.features}
   tint="sand"
   tagInk="#6B4F07"
   check="var(--ink)"
   reverse
 >
   <Vis slot="visual" variant="detail" animate circle={{ x: 3.57, y: 1.85, w: 92.86, tint: 'sand' }}>
-    <VisImage src={ecg} alt="Záznam EKG na tabletu s vyznačeným úsekem nepravidelného tepu" x={-7.14} y={12.96} w={107.14} />
-    <VisImage src={phone} alt="Aplikace pro pacienty v telefonu" x={71.43} y={41.11} w={30.36} delay="late" />
+    <VisImage src={ecg} alt={d.alt.ecg} x={-7.14} y={12.96} w={107.14} />
+    <VisImage src={phone} alt={d.alt.phone} x={71.43} y={41.11} w={30.36} delay="late" />
   </Vis>
-  <p class="detail__foot" data-reveal><strong>Výsledek</strong> pacienty zvete podle skutečného stavu a návštěvy plánujete efektivně</p>
+  <p class="detail__foot" data-reveal><strong>{d.footLabel}</strong> {d.footText}</p>
 </SolutionDetail>

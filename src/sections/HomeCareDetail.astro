@@ -5,32 +5,30 @@ import Vis from '../components/Vis.astro';
 import VisImage from '../components/VisImage.astro';
 import facility from '../assets/img/illustration-care-facility.svg';
 import watch from '../assets/img/w4h-watch.svg';
+import { useTranslations } from '../i18n';
 
-const features = [
-  { title: 'Vitální funkce, pády i SOS', text: 'Základní vitální funkce, monitoring pádů a SOS tlačítko.' },
-  { title: 'Připomínky pro klienty', text: 'Notifikace na užití léků, návštěvu lékaře nebo ověření stavu.' },
-  { title: 'Virtuální dohledové centrum', text: 'Zajišťuje efektivní pomoc ve chvíli, kdy je potřeba.' },
-];
+const t = useTranslations(Astro.currentLocale);
+const d = t.details.home;
 ---
 
 <SolutionDetail
   id="home"
-  tag="LDN, domovy pro seniory, rehabilitační zařízení"
-  title="W4H Home & Long Term Care"
-  lead="Pro zařízení dlouhodobé péče a pro klienty doma. W4H hlídá vitální funkce i pády a virtuální dohledové centrum zajistí pomoc tam, kde je potřeba."
-  features={features}
+  tag={d.tag}
+  title={t.solutions.items.home.title}
+  lead={d.lead}
+  features={d.features}
   tint="blush"
   tagInk="#862A5E"
   check="var(--ink)"
   single
 >
   <Vis slot="visual" variant="detail" animate circle={{ x: 3.57, y: 1.85, w: 92.86, tint: 'blush' }}>
-    <VisImage src={facility} alt="Ilustrace budovy pro dlouhodobou péči" x={1.79} y={3.7} w={103.57} />
-    <VisImage src={watch} alt="Hodinky W4H" x={-7.14} y={46.3} w={58.93} delay="late" />
+    <VisImage src={facility} alt={d.alt.facility} x={1.79} y={3.7} w={103.57} />
+    <VisImage src={watch} alt={d.alt.watch} x={-7.14} y={46.3} w={58.93} delay="late" />
     <div class="vis__item vis__item--later vis__chip vis__chip--stack" style="--x:53.57%;--y:74.81%">
-      <div class="note-chip"><span class="note-chip__sos">SOS</span><strong>Přivolání pomoci</strong></div>
-      <div class="note-chip note-chip--offset"><span class="note-chip__icon" style="--c:var(--blush)"><Icon name="pill" /></span><strong>Připomínka léků</strong></div>
+      <div class="note-chip"><span class="note-chip__sos">SOS</span><strong>{d.sos}</strong></div>
+      <div class="note-chip note-chip--offset"><span class="note-chip__icon" style="--c:var(--blush)"><Icon name="pill" /></span><strong>{d.reminder}</strong></div>
     </div>
   </Vis>
-  <a class="text-link" href="#kontakt" data-reveal>Domluvit ukázku<Icon name="arrow" /></a>
+  <a class="text-link" href="#kontakt" data-reveal>{t.common.bookDemo}<Icon name="arrow" /></a>
 </SolutionDetail>

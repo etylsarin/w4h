@@ -4,32 +4,27 @@ import SolutionDetail from '../components/SolutionDetail.astro';
 import Vis from '../components/Vis.astro';
 import VisImage from '../components/VisImage.astro';
 import ward from '../assets/img/ui-virtual-ward-tablet.svg';
+import { useTranslations } from '../i18n';
 
-const features = [
-  { title: 'Včasné varování', text: 'Využívá britskou metodiku EWS (Early Warning System).' },
-  { title: 'Virtuální oddělení', text: 'Přehled pacientů seřazený podle vyhodnoceného stavu.' },
-  { title: 'Měření bez ruční práce', text: '4 základní vitální funkce každých 15 minut – změřené, zapsané, vyhodnocené.' },
-  { title: 'Sestra ví hned', text: 'Při zhoršení stavu pacienta dostane notifikaci.' },
-  { title: 'Rychlé přiřazení', text: 'Zdravotní náramek s 2D kódem spojí hodinky s pacientem.' },
-  { title: 'Otevřené připojení', text: 'Datová brána připojí i další standardní zařízení (BLE).' },
-];
+const t = useTranslations(Astro.currentLocale);
+const d = t.details.hospital;
 ---
 
 <SolutionDetail
   id="hospital"
-  tag="Akutní péče v nemocnicích"
-  title="W4H Hospital"
-  lead="Virtuální oddělení ukáže sestrám a lékařům, kterého pacienta řešit nejdřív. Kontinuální monitoring zefektivňuje jejich práci."
-  features={features}
+  tag={d.tag}
+  title={t.solutions.items.hospital.title}
+  lead={d.lead}
+  features={d.features}
   tint="ice"
   tagInk="#1B4F8E"
   check="var(--blue)"
 >
   <Vis slot="visual" variant="detail" animate circle={{ x: 3.57, y: 1.85, w: 92.86, tint: 'ice' }}>
-    <VisImage src={ward} alt="Virtuální oddělení W4H na tabletu: pacienti seřazení podle stavu" x={-5.36} y={17.78} w={110.71} />
+    <VisImage src={ward} alt={d.alt} x={-5.36} y={17.78} w={110.71} />
     <div class="vis__item vis__item--late vis__chip" style="--x:58.93%;--y:87.04%">
-      <div class="note-chip"><span class="note-chip__icon note-chip__icon--alert"><Icon name="bell" /></span><span><strong>Notifikace sestře</strong><small>Zhoršení stavu · Pokoj 4</small></span></div>
+      <div class="note-chip"><span class="note-chip__icon note-chip__icon--alert"><Icon name="bell" /></span><span><strong>{d.notice.title}</strong><small>{d.notice.text}</small></span></div>
     </div>
   </Vis>
-  <p class="detail__foot" data-reveal><strong>Vhodné pro</strong> interní, chirurgická, rehabilitační a LDN oddělení</p>
+  <p class="detail__foot" data-reveal><strong>{d.footLabel}</strong> {d.footText}</p>
 </SolutionDetail>

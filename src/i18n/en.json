@@ -1,0 +1,238 @@
+{
+  "meta": {
+    "title": "W4H – continuous patient monitoring | Preadico",
+    "description": "Watch 4 Health automatically measures, records and evaluates a patient's 4 basic vital signs every 15 minutes and alerts a nurse or doctor when their condition worsens."
+  },
+  "common": {
+    "skipLink": "Skip to content",
+    "bookDemo": "Book a demo",
+    "outOfRange": "Value out of range",
+    "samplePatient": "Vzorový, Milan",
+    "sampleRoom": "Room 4"
+  },
+  "header": {
+    "homeLabel": "W4H – home",
+    "navLabel": "Main navigation",
+    "mobileNavLabel": "Mobile navigation",
+    "languageLabel": "Language",
+    "menuOpen": "Open menu",
+    "menuClose": "Close menu"
+  },
+  "nav": {
+    "reseni": "Solutions",
+    "jak": "How it works",
+    "zarizeni": "Devices",
+    "kontakt": "Contact"
+  },
+  "vitals": {
+    "tags": {
+      "temperature": "T",
+      "bloodPressure": "BP",
+      "spo2": "SpO₂",
+      "heartRate": "HR"
+    },
+    "units": {
+      "temperature": "{value} °C",
+      "bloodPressure": "{value} mmHg",
+      "spo2": "{value}%",
+      "heartRate": "{value} bpm"
+    }
+  },
+  "hero": {
+    "eyebrow": "Watch 4 Health",
+    "title": "Continuous patient monitoring",
+    "tagline": "The solution set to become the standard",
+    "lead": "Every 15 minutes, W4H automatically measures, records and evaluates a patient's 4 basic vital signs – and when their condition worsens, it notifies a nurse or doctor.",
+    "watchAlt": "W4H watch with a QR code on the display and a black strap",
+    "alertLabel": "Alert: Vzorový, Milan, room 4, blood pressure 89/65 mmHg out of range"
+  },
+  "facts": {
+    "label": "W4H in numbers",
+    "vitals": "vital signs",
+    "interval": "measurement interval",
+    "intervalUnit": "min",
+    "areas": "areas of care"
+  },
+  "why": {
+    "eyebrow": "Why W4H",
+    "title": "Patients under watch, even between rounds",
+    "lead": "The W4H watch and data gateway monitor vital signs continuously. Staff can see who needs attention first.",
+    "benefits": {
+      "safety": { "title": "Safer patients", "text": "Continuous monitoring greatly increases patient safety." },
+      "quality": { "title": "Better quality of care", "text": "Vital signs are measured, recorded and evaluated automatically." },
+      "efficiency": { "title": "More efficient care", "text": "Streamlines the work of nurses and doctors, and the planning of visits." },
+      "versatility": { "title": "One system, many uses", "text": "For hospital, home and follow-up care." }
+    },
+    "alt": {
+      "watch": "W4H watch",
+      "gateway": "W4H data gateway – a light grey box with the green W4h logo"
+    }
+  },
+  "solutions": {
+    "title": "Three solutions for three areas of care",
+    "lead": "Use W4H in hospitals, outpatient clinics and long-term care facilities. Each version is tailored to how care works in that setting.",
+    "more": "Learn more",
+    "items": {
+      "hospital": {
+        "title": "W4H Hospital",
+        "text": "Acute care in hospitals – a virtual ward with notifications for nurses.",
+        "alt": "Tablet showing the W4H virtual ward"
+      },
+      "clinic": {
+        "title": "W4H Clinic",
+        "text": "Outpatient and home use – for patients with heart failure and for pregnant patients.",
+        "alt": "Phone with the patient app and vital sign charts"
+      },
+      "home": {
+        "title": "W4H Home & Long Term Care",
+        "text": "Long-term care hospitals, senior homes and rehabilitation facilities – vital signs, falls and SOS.",
+        "alt": "Illustration of a long-term care facility"
+      }
+    }
+  },
+  "details": {
+    "hospital": {
+      "tag": "Acute care in hospitals",
+      "lead": "The virtual ward shows nurses and doctors which patient to attend to first. Continuous monitoring makes their work more efficient.",
+      "features": [
+        { "title": "Early warning", "text": "Uses the British EWS (Early Warning System) methodology." },
+        { "title": "Virtual ward", "text": "An overview of patients sorted by their evaluated condition." },
+        { "title": "No manual measuring", "text": "4 basic vital signs every 15 minutes – measured, recorded and evaluated." },
+        { "title": "Nurses know straight away", "text": "They get a notification when a patient's condition worsens." },
+        { "title": "Quick assignment", "text": "A medical wristband with a 2D code links the watch to the patient." },
+        { "title": "Open connectivity", "text": "The data gateway also connects other standard devices (BLE)." }
+      ],
+      "footLabel": "Suitable for",
+      "footText": "internal medicine, surgical, rehabilitation and long-term care wards",
+      "alt": "W4H virtual ward on a tablet: patients sorted by condition",
+      "notice": { "title": "Nurse notified", "text": "Deteriorating · Room 4" }
+    },
+    "clinic": {
+      "tag": "Outpatient and home use",
+      "lead": "For the growing number of chronic patients with heart failure, and for pregnant patients.",
+      "features": [
+        { "title": "Irregular heartbeat", "text": "Measures heartbeat irregularities, evaluates them with AI and saves the sequences." },
+        { "title": "Individual treatment plan", "text": "What to measure and when, including the patient's own assessment of how they feel." },
+        { "title": "Care for pregnant patients", "text": "Blood pressure and automatic triage alongside vital signs." },
+        { "title": "Alerts for doctors", "text": "The GP gets a notification when the patient's condition worsens." },
+        { "title": "Data from other devices", "text": "Readings from a scale or blood pressure monitor, for example, are recorded automatically." },
+        { "title": "Quick contact", "text": "Chat and video with the patient right in the virtual clinic." }
+      ],
+      "footLabel": "Result",
+      "footText": "you invite patients based on their actual condition and plan visits efficiently",
+      "alt": {
+        "ecg": "ECG recording on a tablet with the irregular heartbeat section highlighted",
+        "phone": "Patient app on a phone"
+      }
+    },
+    "home": {
+      "tag": "Long-term care hospitals, senior homes, rehabilitation facilities",
+      "lead": "For long-term care facilities and for clients at home. W4H watches vital signs and falls, and the virtual monitoring centre sends help where it is needed.",
+      "features": [
+        { "title": "Vital signs, falls and SOS", "text": "Basic vital signs, fall detection and an SOS button." },
+        { "title": "Reminders for clients", "text": "Notifications to take medication, visit a doctor or check in on their condition." },
+        { "title": "Virtual monitoring centre", "text": "Provides effective help the moment it is needed." }
+      ],
+      "alt": {
+        "facility": "Illustration of a long-term care building",
+        "watch": "W4H watch"
+      },
+      "sos": "Call for help",
+      "reminder": "Pill reminder"
+    }
+  },
+  "how": {
+    "title": "How it works",
+    "lead": "From the patient's wrist to the nurse's screen – in four steps.",
+    "steps": {
+      "assign": { "title": "Patient assignment", "text": "Staff scan the 2D code on the patient's ID wristband and assign a watch to the patient." },
+      "measure": { "title": "Measurement", "text": "The watch measures vital signs, and BLE devices such as a blood pressure monitor or scale add their readings." },
+      "collect": { "title": "Data collection", "text": "The W4H data gateway collects readings from the devices around it." },
+      "evaluate": { "title": "Evaluation and alerts", "text": "The virtual ward, clinic or monitoring centre sorts patients by condition and alerts a nurse or doctor." }
+    },
+    "alt": {
+      "wristband": "ID wristband with a 2D code",
+      "scanner": "Handheld 2D code scanner",
+      "watch": "W4H watch",
+      "bpMonitor": "Blood pressure monitor with cuff",
+      "gateway": "W4H data gateway",
+      "ward": "Virtual ward on a tablet"
+    }
+  },
+  "rhythm": {
+    "title": "Every 15 minutes. Automatically.",
+    "lead": "The W4H watch measures four vital signs at a regular rhythm. Every reading is recorded and evaluated – and when a value goes out of range, the nurse gets a notification.",
+    "patientMeta": "Room 4 · today's readings",
+    "legendLabel": "Legend",
+    "states": {
+      "ok": "In range",
+      "watch": "Watch",
+      "alert": "Out of range"
+    },
+    "columnsLabel": "Readings every 15 minutes, {from}–{to}",
+    "columnLabel": "{time}: temperature {temperature} °C, blood pressure {bloodPressure} mmHg ({state}), oxygen saturation {spo2}%, heart rate {heartRate} beats per minute",
+    "notified": "Nurse notified",
+    "note": "Sample data. Hover over a column or select it with the Tab key.",
+    "replay": "Play again"
+  },
+  "devices": {
+    "title": "Devices",
+    "lead": "The watch, data gateway and wristband form the core. Standard BLE devices connect to the gateway.",
+    "items": {
+      "watch": { "title": "W4H watch", "text": "Automatically measures 4 basic vital signs every 15 minutes." },
+      "gateway": { "title": "W4H data gateway", "text": "Collects data from the watches and connects other standard devices via BLE." },
+      "wristband": { "title": "Wristband and scanner", "text": "A medical wristband with a 2D code for quickly assigning a watch to a patient." },
+      "ble": { "title": "BLE devices", "text": "Compatible blood pressure monitors, scales and other devices that use standard protocols." }
+    },
+    "alt": {
+      "watch": "W4H watch",
+      "gateway": "W4H data gateway",
+      "wristband": "ID wristband with a 2D code",
+      "scanner": "2D code scanner",
+      "bpMonitor": "Blood pressure monitor with cuff",
+      "scale": "Bathroom scale"
+    }
+  },
+  "trust": {
+    "label": "What W4H is built on",
+    "mdr": "certified medical device",
+    "ews": "British early warning methodology",
+    "ble": "connects standard devices",
+    "departments": ["Medicine · Surgery", "Rehab · Long-term care"],
+    "departmentsText": "wards W4H is suited for"
+  },
+  "contact": {
+    "title": "Book a demo",
+    "lead": "We'll show you W4H and talk through how it would work on your ward, in your clinic or at your facility.",
+    "fields": {
+      "name": { "label": "Name", "placeholder": "John Smith", "error": "Please enter your name." },
+      "facility": { "label": "Facility", "placeholder": "Hospital, clinic, care home…", "error": "Please enter the name of your facility." },
+      "careType": { "label": "Type of care", "hospital": "Hospital", "clinic": "Clinic", "longTerm": "Long-term care" },
+      "email": { "label": "Email", "placeholder": "john.smith@hospital.org", "error": "Please enter a valid email address." },
+      "phone": { "label": "Phone", "placeholder": "+44", "error": "Please enter a valid phone number." },
+      "message": { "label": "Message", "placeholder": "Which ward or patients are you looking for a solution for?" }
+    },
+    "required": "Required fields",
+    "submit": "Send request",
+    "success": {
+      "title": "Thank you, your request has been sent.",
+      "text": "We'll get back to you by email or phone to arrange a date for the demo.",
+      "again": "Send another request"
+    }
+  },
+  "footer": {
+    "homeLabel": "W4H – back to top",
+    "tagline": "Watch 4 Health – a system for continuous patient monitoring.",
+    "logoPlaceholder": "Preadico logo",
+    "poweredBy": "Powered by",
+    "solutions": "Solutions",
+    "product": "Product",
+    "contact": "Contact",
+    "rights": "Preadico. All rights reserved.",
+    "legal": {
+      "privacy": "Privacy policy",
+      "cookies": "Cookies",
+      "terms": "Legal information"
+    }
+  }
+}

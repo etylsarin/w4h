@@ -1,27 +1,28 @@
 ---
 import { Font } from 'astro:assets';
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import IconSprite from '../components/IconSprite.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { defaultLocale, locales, toLocale, useTranslations } from '../i18n';
 import '../styles/global.css';
 
-interface Props {
-  title: string;
-  description: string;
-}
-
-const { title, description } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
 const favicon = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`;
 ---
 
 <!doctype html>
-<html lang="cs" class="no-js">
+<html lang={locale} class="no-js">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <title>{t.meta.title}</title>
+    <meta name="description" content={t.meta.description} />
     <meta name="theme-color" content="#FFFFFF" />
+    <link rel="canonical" href={getAbsoluteLocaleUrl(locale)} />
+    {locales.map((l) => <link rel="alternate" hreflang={l} href={getAbsoluteLocaleUrl(l)} />)}
+    <link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl(defaultLocale)} />
     <link rel="icon" href={favicon} type="image/svg+xml" />
     <Font cssVariable="--font-serif" preload={[{ style: 'normal', subset: 'latin' }]} />
     <Font cssVariable="--font-sans" preload={[{ subset: 'latin' }]} />
@@ -29,7 +30,7 @@ const favicon = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`;
   </head>
   <body>
     <IconSprite />
-    <a class="skip-link" href="#obsah">Přeskočit na obsah</a>
+    <a class="skip-link" href="#obsah">{t.common.skipLink}</a>
 
     <Header />
 

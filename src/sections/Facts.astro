@@ -1,16 +1,22 @@
-<section class="facts" aria-label="W4H v číslech">
+---
+import { useTranslations } from '../i18n';
+
+const t = useTranslations(Astro.currentLocale);
+---
+
+<section class="facts" aria-label={t.facts.label}>
   <div class="container">
     <dl class="facts__grid" data-reveal>
       <div class="fact">
-        <dt class="fact__label">vitální funkce</dt>
+        <dt class="fact__label">{t.facts.vitals}</dt>
         <dd class="fact__value"><span data-count="4">4</span></dd>
       </div>
       <div class="fact fact--center">
-        <dt class="fact__label">interval měření</dt>
-        <dd class="fact__value"><span data-count="15">15</span><small>min</small></dd>
+        <dt class="fact__label">{t.facts.interval}</dt>
+        <dd class="fact__value"><span data-count="15">15</span><small>{t.facts.intervalUnit}</small></dd>
       </div>
       <div class="fact fact--end">
-        <dt class="fact__label">oblasti péče</dt>
+        <dt class="fact__label">{t.facts.areas}</dt>
         <dd class="fact__value"><span data-count="3">3</span></dd>
       </div>
     </dl>

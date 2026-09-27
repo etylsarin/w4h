@@ -1,45 +1,57 @@
 ---
 import Icon from '../components/Icon.astro';
-import { readings, stateLabel, formatDecimal } from '../data/rhythm';
+import { readings } from '../data/rhythm';
+import { format, formatNumber, toLocale, useTranslations } from '../i18n';
 
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const { tags, units } = t.vitals;
 const last = readings.length - 1;
+const temperature = (value: number) => formatNumber(value, locale);
 ---
 
 <section class="section rhythm" id="rytmus" aria-labelledby="rhythm-title">
   <div class="container">
     <div class="rhythm__head">
-      <h2 class="h2 h2--rhythm" id="rhythm-title" data-reveal>Každých 15 minut. Automaticky.</h2>
-      <p class="lead" data-reveal>Hodinky W4H měří čtyři vitální funkce v pravidelném rytmu. Každé měření se zapíše a vyhodnotí – a když hodnota vybočí z mezí, sestra dostane notifikaci.</p>
+      <h2 class="h2 h2--rhythm" id="rhythm-title" data-reveal>{t.rhythm.title}</h2>
+      <p class="lead" data-reveal>{t.rhythm.lead}</p>
     </div>
 
     <div class="strip-card" data-rhythm data-reveal>
       <div class="strip-card__top">
-        <p class="strip-card__patient"><strong>Vzorový, Milan</strong><span>Pokoj 4 · dnešní měření</span></p>
-        <ul class="legend" aria-label="Legenda">
-          <li><span class="dot dot--ok"></span>V mezích</li>
-          <li><span class="dot dot--watch"></span>Sledovat</li>
-          <li><span class="dot dot--alert"></span>Mimo meze</li>
+        <p class="strip-card__patient"><strong>{t.common.samplePatient}</strong><span>{t.rhythm.patientMeta}</span></p>
+        <ul class="legend" aria-label={t.rhythm.legendLabel}>
+          <li><span class="dot dot--ok"></span>{t.rhythm.states.ok}</li>
+          <li><span class="dot dot--watch"></span>{t.rhythm.states.watch}</li>
+          <li><span class="dot dot--alert"></span>{t.rhythm.states.alert}</li>
         </ul>
       </div>
       <div class="strip">
         <ul class="strip__labels" aria-hidden="true">
-          <li><span class="vital__tag">T</span></li>
-          <li><span class="vital__tag">KT</span></li>
-          <li><span class="vital__tag">SpO₂</span></li>
-          <li><span class="vital__tag">ST</span></li>
+          <li><span class="vital__tag">{tags.temperature}</span></li>
+          <li><span class="vital__tag">{tags.bloodPressure}</span></li>
+          <li><span class="vital__tag">{tags.spo2}</span></li>
+          <li><span class="vital__tag">{tags.heartRate}</span></li>
         </ul>
-        <ol class="strip__cols" aria-label={`Měření po 15 minutách, ${readings[0].time}–${readings[last].time}`}>
+        <ol class="strip__cols" aria-label={format(t.rhythm.columnsLabel, { from: readings[0].time, to: readings[last].time })}>
           {readings.map((r, i) => (
             <li class:list={['strip__col', { 'is-last': i === last }]}>
               <button
                 type="button"
-                aria-label={`${r.time}: teplota ${formatDecimal(r.t)} °C, krevní tlak ${r.kt} mmHg (${stateLabel[r.ktState]}), saturace ${r.spo2} %, tep ${r.st} tepů za minutu`}
+                aria-label={format(t.rhythm.columnLabel, {
+                  time: r.time,
+                  temperature: temperature(r.t),
+                  bloodPressure: r.kt,
+                  state: t.rhythm.states[r.ktState].toLocaleLowerCase(locale),
+                  spo2: r.spo2,
+                  heartRate: r.st,
+                })}
                 data-time={r.time}
-                data-t={`${formatDecimal(r.t)} °C`}
-                data-kt={`${r.kt} mmHg`}
+                data-t={format(units.temperature, { value: temperature(r.t) })}
+                data-kt={format(units.bloodPressure, { value: r.kt })}
                 data-kt-state={r.ktState}
-                data-spo2={`${r.spo2} %`}
-                data-st={`${r.st} tepů/min`}
+                data-spo2={format(units.spo2, { value: r.spo2 })}
+                data-st={format(units.heartRate, { value: r.st })}
               >
                 {['ok', r.ktState, 'ok', 'ok'].map((state, row) => (
                   <span class:list={['sdot', state !== 'ok' && `sdot--${state}`]} style={`--i:${i};--r:${row}`} aria-hidden="true"></span>
@@ -50,16 +62,16 @@ const last = readings.length - 1;
             </li>
           ))}
         </ol>
-        <div class="strip__tooltip" data-rhythm-tip aria-hidden="true"></div>
+        <div class="strip__tooltip" data-rhythm-tip data-tags={JSON.stringify(tags)} aria-hidden="true"></div>
         <aside class="callout" aria-live="polite">
-          <p class="callout__head"><span class="callout__pulse" aria-hidden="true"></span>12:45 · Metrika mimo meze</p>
-          <p class="vital vital--alert vital--lg"><span class="vital__tag">KT</span><span class="vital__value">89/65 mmHg</span></p>
-          <p class="callout__foot"><Icon name="bell" />Notifikace odeslána sestře</p>
+          <p class="callout__head"><span class="callout__pulse" aria-hidden="true"></span>{readings[last].time} · {t.common.outOfRange}</p>
+          <p class="vital vital--alert vital--lg"><span class="vital__tag">{tags.bloodPressure}</span><span class="vital__value">{format(units.bloodPressure, { value: readings[last].kt })}</span></p>
+          <p class="callout__foot"><Icon name="bell" />{t.rhythm.notified}</p>
         </aside>
       </div>
       <div class="strip-card__bottom">
-        <p class="strip-card__note">Ukázková data. Najeďte na sloupec nebo ho vyberte klávesou Tab.</p>
-        <button type="button" class="ghost-btn" data-rhythm-replay><Icon name="replay" />Přehrát znovu</button>
+        <p class="strip-card__note">{t.rhythm.note}</p>
+        <button type="button" class="ghost-btn" data-rhythm-replay><Icon name="replay" />{t.rhythm.replay}</button>
       </div>
     </div>
   </div>
@@ -75,6 +87,7 @@ const last = readings.length - 1;
   const tip = card && $('[data-rhythm-tip]', card);
   if (card && strip && tip) {
     const buttons = $$<HTMLButtonElement>('.strip__col button', strip);
+    const tags: Record<string, string> = JSON.parse(tip.dataset.tags ?? '{}');
 
     const row = (label: string, value = '', state?: string) =>
       `<span class="tip__row${state && state !== 'ok' ? ` tip__row--${state}` : ''}"><span>${label}</span><span>${value}</span></span>`;
@@ -82,7 +95,7 @@ const last = readings.length - 1;
     function showTip(btn: HTMLButtonElement) {
       const d = btn.dataset;
       tip!.innerHTML = `<span class="tip__time">${d.time}</span>` +
-        row('T', d.t) + row('KT', d.kt, d.ktState) + row('SpO₂', d.spo2) + row('ST', d.st);
+        row(tags.temperature, d.t) + row(tags.bloodPressure, d.kt, d.ktState) + row(tags.spo2, d.spo2) + row(tags.heartRate, d.st);
       const sr = strip!.getBoundingClientRect();
       const br = btn.getBoundingClientRect();
       const half = tip!.offsetWidth / 2;
@@ -107,8 +120,10 @@ const last = readings.length - 1;
     let doneTimer: ReturnType<typeof setTimeout> | undefined;
     function play() {
       clearTimeout(doneTimer);
+      strip!.classList.add('is-resetting');
       strip!.classList.remove('is-playing', 'is-done');
-      void strip!.offsetWidth; // restart přechodů
+      void strip!.offsetWidth; // výchozí stav bez přechodu, pak přechody znovu
+      strip!.classList.remove('is-resetting');
       strip!.classList.add('is-playing');
       const total = reduceMotion.matches ? 0 : buttons.length * 55 + 500;
       doneTimer = setTimeout(() => strip!.classList.add('is-done'), total);

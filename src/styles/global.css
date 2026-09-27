@@ -202,12 +202,12 @@ main, .site-footer { overflow-x: clip; }
 }
 .lang-switch[data-active="en"] .lang-switch__pill { transform: translateX(100%); }
 .lang-switch__btn {
-  position: relative; z-index: 1; height: 30px; min-width: 40px; padding: 0 10px;
+  position: relative; z-index: 1; display: grid; place-items: center; height: 30px; min-width: 40px; padding: 0 10px;
   border: 0; border-radius: 999px; background: none; color: var(--ink-3); cursor: pointer;
   transition: color .3s ease, var(--focus-tr);
 }
-.lang-switch__btn[aria-pressed="true"] { color: #fff; }
-.lang-switch__btn:hover:not([aria-pressed="true"]) { color: var(--ink); }
+.lang-switch__btn[aria-current="true"] { color: #fff; }
+.lang-switch__btn:hover:not([aria-current="true"]) { color: var(--ink); }
 
 /* Vitální hodnoty */
 .vital { display: flex; align-items: center; gap: .7em; font-variant-numeric: tabular-nums; }
@@ -422,9 +422,10 @@ main, .site-footer { overflow-x: clip; }
 .steps__progress { position: absolute; left: 0; top: -1.5px; width: 100%; height: 1.5px; background: var(--teal); transform: scaleX(var(--progress, 0)); transform-origin: left; }
 .steps__list { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; }
 .step { display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
-.vis--step { width: 220px; flex: none; }
+.vis--step { width: 220px; flex: none; isolation: isolate; }
+/* Kroužek aktivního kroku leží za ilustracemi – ty přesahují kruh a kroužek by je jinak přeškrtl. */
 .vis--step::after {
-  content: ""; position: absolute; inset: -7px; border-radius: 50%;
+  content: ""; position: absolute; z-index: -1; inset: -7px; border-radius: 50%;
   border: 1.5px solid var(--teal); opacity: 0; transform: scale(.94);
   transition: opacity .45s ease, transform .6s var(--ease-out);
 }
@@ -495,6 +496,9 @@ main, .site-footer { overflow-x: clip; }
   transition: opacity .5s ease, transform .7s var(--ease-out);
 }
 .strip.is-done .callout, .no-js .callout { opacity: 1; transform: none; }
+/* Přehrát znovu: tečky a upozornění se skryjí okamžitě, bez přechodu – jinak by zpožděný
+   přechod tečky nikdy neskryl a animace by se nezopakovala. */
+.strip.is-resetting .sdot, .strip.is-resetting .callout { transition: none; }
 .callout__head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: var(--alert); }
 .callout__pulse { width: 10px; height: 10px; border-radius: 50%; background: var(--alert); }
 .strip.is-done .callout__pulse { animation: pulse 2.4s ease-in-out infinite; }

@@ -10,6 +10,12 @@ const base = process.env.SITE_BASE_PATH ?? '/w4h';
 export default defineConfig({
   site,
   base: base || '/',
+  // Czech at the site root, other languages under /<code>/. Keep in sync with src/i18n/index.ts.
+  i18n: {
+    locales: ['cs', 'en'],
+    defaultLocale: 'cs',
+    routing: { prefixDefaultLocale: false },
+  },
   // Fonts are downloaded at build time and served from the site itself,
   // so visitors' browsers never contact Google. latin-ext covers Czech diacritics.
   fonts: [

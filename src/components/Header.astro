@@ -1,30 +1,51 @@
 ---
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import Icon from './Icon.astro';
-import { nav } from '../data/site';
+import { navIds } from '../data/site';
+import { localeLabels, locales, toLocale, useTranslations } from '../i18n';
+
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
 ---
 
 <header class="site-header" data-header>
   <div class="container site-header__inner">
-    <a class="brand" href="#top" aria-label="W4H – úvod">
+    <a class="brand" href="#top" aria-label={t.header.homeLabel}>
       <Icon name="mark" class="brand__mark" />
       <span class="brand__name">W4H</span>
     </a>
 
-    <nav class="main-nav" aria-label="Hlavní navigace">
+    <nav class="main-nav" aria-label={t.header.navLabel}>
       <ul class="main-nav__list">
-        {nav.map((item) => <li><a class="nav-link" href={`#${item.id}`} data-spy={item.id}>{item.label}</a></li>)}
+        {navIds.map((id) => <li><a class="nav-link" href={`#${id}`} data-spy={id}>{t.nav[id]}</a></li>)}
       </ul>
     </nav>
 
     <div class="site-header__actions">
-      <div class="lang-switch" role="group" aria-label="Jazyk webu" data-lang-switch>
+      <nav class="lang-switch" aria-label={t.header.languageLabel} data-lang-switch data-active={locale}>
         <span class="lang-switch__pill" aria-hidden="true"></span>
-        <button type="button" class="lang-switch__btn" aria-pressed="true" data-lang="cs">CZ</button>
-        <button type="button" class="lang-switch__btn" aria-pressed="false" data-lang="en">EN</button>
-      </div>
-      <a class="btn btn--primary btn--sm site-header__cta" href="#kontakt">Domluvit ukázku</a>
-      <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="mobilni-menu" data-menu-toggle>
-        <span class="visually-hidden" data-menu-label>Otevřít menu</span>
+        {locales.map((l) => (
+          <a
+            class="lang-switch__btn"
+            href={getRelativeLocaleUrl(l)}
+            hreflang={l}
+            lang={l}
+            title={localeLabels[l].name}
+            aria-current={l === locale ? 'true' : undefined}
+          >{localeLabels[l].short}</a>
+        ))}
+      </nav>
+      <a class="btn btn--primary btn--sm site-header__cta" href="#kontakt">{t.common.bookDemo}</a>
+      <button
+        type="button"
+        class="menu-toggle"
+        aria-expanded="false"
+        aria-controls="mobilni-menu"
+        data-menu-toggle
+        data-label-open={t.header.menuOpen}
+        data-label-close={t.header.menuClose}
+      >
+        <span class="visually-hidden" data-menu-label>{t.header.menuOpen}</span>
         <Icon name="menu" class="menu-toggle__open" />
         <Icon name="close" class="menu-toggle__close" />
       </button>
@@ -32,12 +53,12 @@ import { nav } from '../data/site';
   </div>
 
   <div class="mobile-menu" id="mobilni-menu" data-menu hidden>
-    <nav aria-label="Mobilní navigace">
+    <nav aria-label={t.header.mobileNavLabel}>
       <ul class="mobile-menu__list">
-        {nav.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}
+        {navIds.map((id) => <li><a href={`#${id}`}>{t.nav[id]}</a></li>)}
       </ul>
     </nav>
-    <a class="btn btn--primary btn--block" href="#kontakt">Domluvit ukázku</a>
+    <a class="btn btn--primary btn--block" href="#kontakt">{t.common.bookDemo}</a>
   </div>
 </header>
 
@@ -66,7 +87,7 @@ import { nav } from '../data/site';
       menu!.hidden = false;
       menu!.classList.add('is-open');
       toggle!.setAttribute('aria-expanded', 'true');
-      if (label) label.textContent = 'Zavřít menu';
+      if (label) label.textContent = toggle!.dataset.labelClose ?? '';
       focusables()[0]?.focus();
       document.addEventListener('keydown', onKey);
       document.addEventListener('click', onOutside, true);
@@ -75,7 +96,7 @@ import { nav } from '../data/site';
       menu!.classList.remove('is-open');
       menu!.hidden = true;
       toggle!.setAttribute('aria-expanded', 'false');
-      if (label) label.textContent = 'Otevřít menu';
+      if (label) label.textContent = toggle!.dataset.labelOpen ?? '';
       document.removeEventListener('keydown', onKey);
       document.removeEventListener('click', onOutside, true);
       if (returnFocus) toggle!.focus();
@@ -105,31 +126,17 @@ import { nav } from '../data/site';
     });
   }
 
-  /* Přepínač jazyka (CZ / EN)
-     Web zatím obsahuje jen českou verzi. Přepínač mění stav a vyšle
-     událost „w4h:langchange“ – napojte na ni překlady nebo přesměrování na /en/. */
+  /* Přepínač jazyka: odkazy na jazykové verze stránky.
+     Pilulka se posune hned po kliknutí a návštěvník zůstane u stejné sekce (#kotva). */
   function initLang() {
     const group = $('[data-lang-switch]');
     if (!group) return;
-    const buttons = $$('[data-lang]', group);
-    function set(lang: string, focus = false) {
-      buttons.forEach((b) => {
-        const on = b.dataset.lang === lang;
-        b.setAttribute('aria-pressed', on ? 'true' : 'false');
-        if (on && focus) b.focus();
-      });
-      group!.dataset.active = lang;
-      document.dispatchEvent(new CustomEvent('w4h:langchange', { detail: { lang } }));
-    }
-    buttons.forEach((b, i) => {
-      b.addEventListener('click', () => set(b.dataset.lang!));
-      b.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-          e.preventDefault();
-          const next = buttons[(i + (e.key === 'ArrowRight' ? 1 : buttons.length - 1)) % buttons.length];
-          set(next.dataset.lang!, true);
-        }
-      });
+    group.addEventListener('click', (e) => {
+      const link = (e.target as Element).closest<HTMLAnchorElement>('a[hreflang]');
+      if (!link) return;
+      if (link.getAttribute('aria-current') === 'true') { e.preventDefault(); return; }
+      group.dataset.active = link.hreflang;
+      if (location.hash) link.hash = location.hash;
     });
   }
 
