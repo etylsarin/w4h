@@ -1,0 +1,26 @@
+---
+/**
+ * Illustration composition: a tinted circle with illustrations laid over it.
+ * Positions are percentages of the composition width, taken from the design.
+ */
+export type Tint = 'ice' | 'sand' | 'blush' | 'neutral';
+
+interface Props {
+  class?: string;
+  variant: 'why' | 'solution' | 'detail' | 'step' | 'device';
+  circle: { x: number; y: number; w: number; tint: Tint };
+  /** Grow the circle and drop the items in on scroll, with a gentle parallax. */
+  animate?: boolean;
+}
+
+const { variant, circle, animate = false, class: className } = Astro.props;
+---
+
+<div
+  class:list={[className, 'vis', `vis--${variant}`]}
+  data-reveal={animate ? 'scale' : undefined}
+  data-parallax={animate ? '.05' : undefined}
+>
+  <span class="vis__circle" style={`--x:${circle.x}%;--y:${circle.y}%;--w:${circle.w}%;--c:var(--${circle.tint})`} aria-hidden="true"></span>
+  <slot />
+</div>

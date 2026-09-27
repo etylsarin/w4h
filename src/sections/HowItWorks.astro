@@ -1,0 +1,90 @@
+---
+import Vis from '../components/Vis.astro';
+import VisImage from '../components/VisImage.astro';
+import wristband from '../assets/img/patient-id-wristband.svg';
+import scanner from '../assets/img/scanner-2d.svg';
+import watch from '../assets/img/w4h-watch.svg';
+import bpMonitor from '../assets/img/ble-blood-pressure-monitor.svg';
+import gateway from '../assets/img/w4h-gateway.svg';
+import ward from '../assets/img/ui-virtual-ward-tablet.svg';
+
+type StepImage = { src: ImageMetadata; alt: string; x: number; y: number; w: number; delay?: 'late' };
+
+const steps: { title: string; text: string; images: StepImage[] }[] = [
+  {
+    title: 'Přiřazení pacienta',
+    text: 'Personál načte 2D kód z identifikačního náramku a přiřadí pacientovi hodinky.',
+    images: [
+      { src: wristband, alt: 'Identifikační náramek s 2D kódem', x: -2.73, y: 23.64, w: 86.36 },
+      { src: scanner, alt: 'Ruční čtečka 2D kódů', x: 50, y: 18.18, w: 58.18, delay: 'late' },
+    ],
+  },
+  {
+    title: 'Měření',
+    text: 'Hodinky měří vitální funkce, BLE zařízení jako tlakoměr nebo váha doplní své hodnoty.',
+    images: [
+      { src: watch, alt: 'Hodinky W4H', x: -4.55, y: -6.36, w: 104.55 },
+      { src: bpMonitor, alt: 'Tlakoměr s manžetou', x: 47.27, y: 53.64, w: 63.64, delay: 'late' },
+    ],
+  },
+  {
+    title: 'Sběr dat',
+    text: 'Datová brána W4H sbírá naměřené hodnoty ze zařízení ve svém okolí.',
+    images: [{ src: gateway, alt: 'Datová brána W4H', x: -4.55, y: 11.82, w: 109.09 }],
+  },
+  {
+    title: 'Vyhodnocení a upozornění',
+    text: 'Virtuální oddělení, ambulance nebo dohledové centrum seřadí pacienty podle stavu a upozorní sestru či lékaře.',
+    images: [{ src: ward, alt: 'Virtuální oddělení na tabletu', x: -10.91, y: 20.91, w: 121.82 }],
+  },
+];
+---
+
+<section class="section how" id="jak" aria-labelledby="how-title">
+  <div class="container">
+    <header class="section-head">
+      <h2 class="h2" id="how-title" data-reveal>Jak to funguje</h2>
+      <p class="lead" data-reveal>Od zápěstí pacienta až na obrazovku sestry – ve čtyřech krocích.</p>
+    </header>
+    <div class="steps" data-steps>
+      <span class="steps__line" aria-hidden="true"><span class="steps__progress"></span></span>
+      <ol class="steps__list">
+        {steps.map((step, i) => (
+          <li class="step">
+            <Vis class="step__visual" variant="step" circle={{ x: 0, y: 0, w: 100, tint: 'ice' }}>
+              {step.images.map((img) => <VisImage {...img} />)}
+            </Vis>
+            <div class="step__copy">
+              <span class="step__num">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="step__title">{step.title}</h3>
+              <p class="step__text">{step.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { $, $$, reduceMotion, onScrollFrame } from '../scripts/dom';
+
+  /* Jak to funguje: průběžná linka a aktivní krok podle scrollu */
+  const box = $('[data-steps]');
+  if (box) {
+    const steps = $$('.step', box);
+    steps.forEach((s, i) => s.style.setProperty('--d', `${i * 140}ms`));
+    if (reduceMotion.matches) {
+      box.style.setProperty('--progress', '1');
+      steps.forEach((s) => s.classList.add('is-active'));
+    } else {
+      onScrollFrame(() => {
+        const r = box.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const p = Math.max(0, Math.min(1, (vh * 0.75 - r.top) / (r.height + vh * 0.1)));
+        box.style.setProperty('--progress', p.toFixed(3));
+        steps.forEach((s, i) => s.classList.toggle('is-active', p >= i / steps.length + 0.02));
+      });
+    }
+  }
+</script>

@@ -1,0 +1,126 @@
+---
+import Icon from '../components/Icon.astro';
+import { readings, stateLabel, formatDecimal } from '../data/rhythm';
+
+const last = readings.length - 1;
+---
+
+<section class="section rhythm" id="rytmus" aria-labelledby="rhythm-title">
+  <div class="container">
+    <div class="rhythm__head">
+      <h2 class="h2 h2--rhythm" id="rhythm-title" data-reveal>Každých 15 minut. Automaticky.</h2>
+      <p class="lead" data-reveal>Hodinky W4H měří čtyři vitální funkce v pravidelném rytmu. Každé měření se zapíše a vyhodnotí – a když hodnota vybočí z mezí, sestra dostane notifikaci.</p>
+    </div>
+
+    <div class="strip-card" data-rhythm data-reveal>
+      <div class="strip-card__top">
+        <p class="strip-card__patient"><strong>Vzorový, Milan</strong><span>Pokoj 4 · dnešní měření</span></p>
+        <ul class="legend" aria-label="Legenda">
+          <li><span class="dot dot--ok"></span>V mezích</li>
+          <li><span class="dot dot--watch"></span>Sledovat</li>
+          <li><span class="dot dot--alert"></span>Mimo meze</li>
+        </ul>
+      </div>
+      <div class="strip">
+        <ul class="strip__labels" aria-hidden="true">
+          <li><span class="vital__tag">T</span></li>
+          <li><span class="vital__tag">KT</span></li>
+          <li><span class="vital__tag">SpO₂</span></li>
+          <li><span class="vital__tag">ST</span></li>
+        </ul>
+        <ol class="strip__cols" aria-label={`Měření po 15 minutách, ${readings[0].time}–${readings[last].time}`}>
+          {readings.map((r, i) => (
+            <li class:list={['strip__col', { 'is-last': i === last }]}>
+              <button
+                type="button"
+                aria-label={`${r.time}: teplota ${formatDecimal(r.t)} °C, krevní tlak ${r.kt} mmHg (${stateLabel[r.ktState]}), saturace ${r.spo2} %, tep ${r.st} tepů za minutu`}
+                data-time={r.time}
+                data-t={`${formatDecimal(r.t)} °C`}
+                data-kt={`${r.kt} mmHg`}
+                data-kt-state={r.ktState}
+                data-spo2={`${r.spo2} %`}
+                data-st={`${r.st} tepů/min`}
+              >
+                {['ok', r.ktState, 'ok', 'ok'].map((state, row) => (
+                  <span class:list={['sdot', state !== 'ok' && `sdot--${state}`]} style={`--i:${i};--r:${row}`} aria-hidden="true"></span>
+                ))}
+                <span class:list={['stick', { 'stick--hour': i % 4 === 0 }]} aria-hidden="true"></span>
+                <span class="slabel" aria-hidden="true">{i === last || i % 4 === 0 ? r.time : ''}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+        <div class="strip__tooltip" data-rhythm-tip aria-hidden="true"></div>
+        <aside class="callout" aria-live="polite">
+          <p class="callout__head"><span class="callout__pulse" aria-hidden="true"></span>12:45 · Metrika mimo meze</p>
+          <p class="vital vital--alert vital--lg"><span class="vital__tag">KT</span><span class="vital__value">89/65 mmHg</span></p>
+          <p class="callout__foot"><Icon name="bell" />Notifikace odeslána sestře</p>
+        </aside>
+      </div>
+      <div class="strip-card__bottom">
+        <p class="strip-card__note">Ukázková data. Najeďte na sloupec nebo ho vyberte klávesou Tab.</p>
+        <button type="button" class="ghost-btn" data-rhythm-replay><Icon name="replay" />Přehrát znovu</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { $, $$, reduceMotion } from '../scripts/dom';
+
+  /* Rytmus 15 minut: přehrání a detail sloupce.
+     Sloupce se generují při buildu z src/data/rhythm.ts, hodnoty pro tooltip nesou v data-* atributech. */
+  const card = $('[data-rhythm]');
+  const strip = card && $('.strip', card);
+  const tip = card && $('[data-rhythm-tip]', card);
+  if (card && strip && tip) {
+    const buttons = $$<HTMLButtonElement>('.strip__col button', strip);
+
+    const row = (label: string, value = '', state?: string) =>
+      `<span class="tip__row${state && state !== 'ok' ? ` tip__row--${state}` : ''}"><span>${label}</span><span>${value}</span></span>`;
+
+    function showTip(btn: HTMLButtonElement) {
+      const d = btn.dataset;
+      tip!.innerHTML = `<span class="tip__time">${d.time}</span>` +
+        row('T', d.t) + row('KT', d.kt, d.ktState) + row('SpO₂', d.spo2) + row('ST', d.st);
+      const sr = strip!.getBoundingClientRect();
+      const br = btn.getBoundingClientRect();
+      const half = tip!.offsetWidth / 2;
+      let x = br.left - sr.left + br.width / 2;
+      x = Math.max(half, Math.min(sr.width - half, x));
+      tip!.style.left = `${x}px`;
+      tip!.style.top = `${br.top - sr.top - 10}px`;
+      tip!.classList.add('is-visible');
+    }
+    const hideTip = () => tip.classList.remove('is-visible');
+
+    buttons.forEach((btn) => {
+      const show = () => showTip(btn);
+      btn.addEventListener('mouseenter', show);
+      btn.addEventListener('focus', show);
+      btn.addEventListener('click', show);
+      btn.addEventListener('mouseleave', hideTip);
+      btn.addEventListener('blur', hideTip);
+    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hideTip(); });
+
+    let doneTimer: ReturnType<typeof setTimeout> | undefined;
+    function play() {
+      clearTimeout(doneTimer);
+      strip!.classList.remove('is-playing', 'is-done');
+      void strip!.offsetWidth; // restart přechodů
+      strip!.classList.add('is-playing');
+      const total = reduceMotion.matches ? 0 : buttons.length * 55 + 500;
+      doneTimer = setTimeout(() => strip!.classList.add('is-done'), total);
+    }
+
+    if (!('IntersectionObserver' in window) || reduceMotion.matches) play();
+    else {
+      const io = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) { play(); io.disconnect(); }
+      }, { threshold: 0.45 });
+      io.observe(card);
+    }
+    $('[data-rhythm-replay]', card)?.addEventListener('click', play);
+  }
+</script>

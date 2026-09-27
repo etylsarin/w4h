@@ -1,0 +1,15 @@
+---
+/** Decorative icon from the sprite in IconSprite.astro. */
+export type IconName =
+  | 'mark' | 'check' | 'arrow' | 'play' | 'alert' | 'bell' | 'shield' | 'clipboard' | 'clock'
+  | 'home' | 'pill' | 'globe' | 'phone' | 'menu' | 'close' | 'replay' | 'error';
+
+interface Props {
+  name: IconName;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+---
+
+<svg class={className} aria-hidden="true"><use href={`#i-${name}`} /></svg>

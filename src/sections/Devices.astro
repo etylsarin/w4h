@@ -1,0 +1,65 @@
+---
+import Vis, { type Tint } from '../components/Vis.astro';
+import VisImage from '../components/VisImage.astro';
+import watch from '../assets/img/w4h-watch.svg';
+import gateway from '../assets/img/w4h-gateway.svg';
+import wristband from '../assets/img/patient-id-wristband.svg';
+import scanner from '../assets/img/scanner-2d.svg';
+import bpMonitor from '../assets/img/ble-blood-pressure-monitor.svg';
+import scale from '../assets/img/ble-body-scale.svg';
+
+type DeviceImage = { src: ImageMetadata; alt: string; x: number; y: number; w: number; delay?: 'late' };
+
+const devices: { title: string; text: string; tint: Tint; images: DeviceImage[] }[] = [
+  {
+    title: 'Hodinky W4H',
+    text: 'Automaticky měří 4 základní vitální funkce každých 15 minut.',
+    tint: 'ice',
+    images: [{ src: watch, alt: 'Hodinky W4H', x: -7.69, y: -9.23, w: 115.38 }],
+  },
+  {
+    title: 'Datová brána W4H',
+    text: 'Sbírá data z hodinek a připojí i další standardní zařízení přes BLE.',
+    tint: 'ice',
+    images: [{ src: gateway, alt: 'Datová brána W4H', x: -4.62, y: 15.38, w: 109.23 }],
+  },
+  {
+    title: 'Náramek a čtečka',
+    text: 'Zdravotní náramek s 2D kódem pro rychlé přiřazení hodinek pacientovi.',
+    tint: 'ice',
+    images: [
+      { src: wristband, alt: 'Identifikační náramek s 2D kódem', x: -3.08, y: 36.92, w: 80.77 },
+      { src: scanner, alt: 'Čtečka 2D kódů', x: 45.38, y: 11.54, w: 61.54, delay: 'late' },
+    ],
+  },
+  {
+    title: 'BLE zařízení',
+    text: 'Kompatibilní tlakoměr, váha a další standardně komunikující zařízení.',
+    tint: 'neutral',
+    images: [
+      { src: bpMonitor, alt: 'Tlakoměr s manžetou', x: -5.38, y: 6.92, w: 88.46 },
+      { src: scale, alt: 'Osobní váha', x: 36.92, y: 48.46, w: 69.23, delay: 'late' },
+    ],
+  },
+];
+---
+
+<section class="section devices" id="zarizeni" aria-labelledby="devices-title">
+  <div class="container">
+    <header class="section-head">
+      <h2 class="h2" id="devices-title" data-reveal>Zařízení</h2>
+      <p class="lead" data-reveal>Hodinky, datová brána a náramek tvoří základ. Standardní BLE zařízení se připojí k bráně.</p>
+    </header>
+    <ul class="device-grid" data-stagger>
+      {devices.map((d) => (
+        <li class="device" data-reveal>
+          <Vis variant="device" circle={{ x: 3.85, y: 3.85, w: 92.31, tint: d.tint }}>
+            {d.images.map((img) => <VisImage {...img} />)}
+          </Vis>
+          <h3 class="device__title">{d.title}</h3>
+          <p class="device__text">{d.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

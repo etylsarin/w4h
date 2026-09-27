@@ -1,0 +1,56 @@
+---
+import Icon from './Icon.astro';
+import { contact } from '../data/site';
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <a class="brand brand--footer" href="#top" aria-label="W4H – zpět nahoru">
+          <Icon name="mark" class="brand__mark" />
+          <span class="brand__name">W4H</span>
+        </a>
+        <p>Watch 4 Health – systém pro kontinuální monitoring pacientů.</p>
+        <div class="logo-row">
+          {/* Místo pro vektorové logo Preadico (dodá klient) */}
+          <span class="logo-slot">Logo Preadico</span>
+          <span class="powered">Powered by <span class="logo-slot logo-slot--sm">Scalesoft</span></span>
+        </div>
+      </div>
+      <nav class="site-footer__col" aria-label="Řešení">
+        <h2 class="site-footer__head">Řešení</h2>
+        <a href="#hospital">W4H Hospital</a>
+        <a href="#clinic">W4H Clinic</a>
+        <a href="#home">W4H Home &amp; Long Term Care</a>
+      </nav>
+      <nav class="site-footer__col" aria-label="Produkt">
+        <h2 class="site-footer__head">Produkt</h2>
+        <a href="#jak">Jak to funguje</a>
+        <a href="#zarizeni">Zařízení</a>
+        <a href="#kontakt">Domluvit ukázku</a>
+      </nav>
+      <div class="site-footer__col">
+        <h2 class="site-footer__head">Kontakt</h2>
+        <span>{contact.company}</span>
+        <a href={contact.web} rel="noopener">{contact.webLabel}</a>
+        <a href={contact.phone}>{contact.phoneLabel}</a>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p>© <span data-year>{new Date().getFullYear()}</span> Preadico. Všechna práva vyhrazena.</p>
+      {/* Právní stránky zatím neexistují – doplňte odkazy. */}
+      <ul class="site-footer__legal">
+        <li><a href="#">Ochrana osobních údajů</a></li>
+        <li><a href="#">Cookies</a></li>
+        <li><a href="#">Právní informace</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Rok v patičce zůstane aktuální i bez nového buildu.
+  const year = document.querySelector('[data-year]');
+  if (year) year.textContent = String(new Date().getFullYear());
+</script>

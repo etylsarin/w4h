@@ -1,0 +1,133 @@
+---
+import Icon from '../components/Icon.astro';
+import { contact } from '../data/site';
+---
+
+<section class="contact" id="kontakt" aria-labelledby="demo-title">
+  <div class="container">
+    <div class="demo-card" data-reveal>
+      <div class="demo-card__intro">
+        <h2 class="h2 h2--demo" id="demo-title">Domluvte si ukázku</h2>
+        <p class="lead">Předvedeme vám W4H a probereme, jak by fungoval na vašem oddělení, v ambulanci nebo v zařízení.</p>
+        <address class="contact-list">
+          <strong>{contact.company}</strong>
+          <a href={contact.web} rel="noopener"><Icon name="globe" />{contact.webLabel}</a>
+          <a href={contact.phone}><Icon name="phone" />{contact.phoneLabel}</a>
+        </address>
+      </div>
+
+      {/* Formulář zatím neodesílá data. Ve skriptu níže nahraďte simulaci voláním vlastního endpointu. */}
+      <form class="demo-form" action="#" method="post" novalidate data-demo-form>
+        <div class="field">
+          <label class="field__label" for="f-jmeno">Jméno <span class="field__req" aria-hidden="true">*</span></label>
+          <input class="field__input" id="f-jmeno" name="jmeno" type="text" autocomplete="name" placeholder="Jan Novák" required aria-describedby="f-jmeno-err" data-msg="Vyplňte prosím jméno." />
+          <p class="field__error" id="f-jmeno-err" hidden><Icon name="error" /><span></span></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="f-zarizeni">Zařízení <span class="field__req" aria-hidden="true">*</span></label>
+          <input class="field__input" id="f-zarizeni" name="zarizeni" type="text" autocomplete="organization" placeholder="Nemocnice, ambulance, LDN…" required aria-describedby="f-zarizeni-err" data-msg="Vyplňte prosím název zařízení." />
+          <p class="field__error" id="f-zarizeni-err" hidden><Icon name="error" /><span></span></p>
+        </div>
+        <fieldset class="field field--full choice">
+          <legend class="field__label">Typ péče</legend>
+          <div class="choice__grid">
+            <label class="choice__option"><input type="radio" name="typ" value="nemocnice" checked /><span class="choice__dot" aria-hidden="true"></span>Nemocnice</label>
+            <label class="choice__option"><input type="radio" name="typ" value="ambulance" /><span class="choice__dot" aria-hidden="true"></span>Ambulance</label>
+            <label class="choice__option"><input type="radio" name="typ" value="dlouhodoba" /><span class="choice__dot" aria-hidden="true"></span>Dlouhodobá péče</label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label class="field__label" for="f-email">E-mail <span class="field__req" aria-hidden="true">*</span></label>
+          <input class="field__input" id="f-email" name="email" type="email" autocomplete="email" placeholder="jan.novak@nemocnice.cz" required aria-describedby="f-email-err" data-msg="Zadejte prosím platný e-mail." />
+          <p class="field__error" id="f-email-err" hidden><Icon name="error" /><span></span></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="f-tel">Telefon</label>
+          <input class="field__input" id="f-tel" name="telefon" type="tel" autocomplete="tel" placeholder="+420" aria-describedby="f-tel-err" data-msg="Zadejte prosím platné telefonní číslo." data-pattern="^\+?[0-9 ]{9,16}$" />
+          <p class="field__error" id="f-tel-err" hidden><Icon name="error" /><span></span></p>
+        </div>
+        <div class="field field--full">
+          <label class="field__label" for="f-zprava">Zpráva</label>
+          <textarea class="field__input field__input--area" id="f-zprava" name="zprava" rows="3" placeholder="Pro jaké oddělení nebo pacienty řešení hledáte?"></textarea>
+        </div>
+        <div class="demo-form__actions field--full">
+          <p class="demo-form__hint"><span aria-hidden="true">*</span> Povinné údaje</p>
+          <button class="btn btn--primary btn--lg" type="submit" data-submit><span class="btn__label">Odeslat žádost</span><span class="btn__spinner" aria-hidden="true"></span></button>
+        </div>
+      </form>
+
+      <div class="demo-success" data-demo-success hidden tabindex="-1">
+        <span class="demo-success__icon" aria-hidden="true"><Icon name="check" /></span>
+        <h3 class="demo-success__title">Děkujeme, žádost je odeslaná.</h3>
+        <p>Ozveme se vám na uvedený e-mail nebo telefon a domluvíme termín ukázky.</p>
+        <button type="button" class="ghost-btn" data-demo-reset>Odeslat další žádost</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { $, $$ } from '../scripts/dom';
+
+  /* Formulář žádosti o ukázku: validace a stav odeslání */
+  const form = $<HTMLFormElement>('[data-demo-form]');
+  const success = $('[data-demo-success]');
+  if (form && success) {
+    const submit = $('[data-submit]', form)!;
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+    function check(input: HTMLInputElement) {
+      const v = input.value.trim();
+      let ok = true;
+      if (input.required && !v) ok = false;
+      else if (v && input.type === 'email' && !emailRe.test(v)) ok = false;
+      else if (v && input.dataset.pattern && !new RegExp(input.dataset.pattern).test(v)) ok = false;
+      const err = document.getElementById(input.getAttribute('aria-describedby') ?? '');
+      if (ok) {
+        input.removeAttribute('aria-invalid');
+        if (err) err.hidden = true;
+      } else {
+        input.setAttribute('aria-invalid', 'true');
+        if (err) { $('span', err)!.textContent = input.dataset.msg ?? ''; err.hidden = false; }
+      }
+      return ok;
+    }
+
+    const fields = $$<HTMLInputElement>('input[aria-describedby]', form);
+    fields.forEach((input) => {
+      input.addEventListener('blur', () => { if (input.value.trim() || input.hasAttribute('aria-invalid')) check(input); });
+      input.addEventListener('input', () => { if (input.hasAttribute('aria-invalid')) check(input); });
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      // Zkontrolovat všechna pole (ať se ukážou všechny chyby), fokus na první chybné.
+      const firstBad = fields.filter((input) => !check(input))[0];
+      if (firstBad) {
+        const f = firstBad.closest<HTMLElement>('.field')!;
+        f.classList.remove('is-shaking'); void f.offsetWidth; f.classList.add('is-shaking');
+        firstBad.focus();
+        return;
+      }
+      submit.classList.add('is-loading');
+      submit.setAttribute('aria-busy', 'true');
+      // Sem patří fetch() na vlastní endpoint. Simulace odeslání:
+      setTimeout(() => {
+        submit.classList.remove('is-loading');
+        submit.removeAttribute('aria-busy');
+        form.hidden = true;
+        success.hidden = false;
+        success.classList.add('is-shown');
+        success.focus();
+      }, 900);
+    });
+
+    $('[data-demo-reset]')?.addEventListener('click', () => {
+      form.reset();
+      success.hidden = true;
+      success.classList.remove('is-shown');
+      form.hidden = false;
+      $('input', form)?.focus();
+    });
+  }
+</script>

@@ -1,0 +1,55 @@
+---
+/**
+ * Detail section of one solution: illustration (slot "visual") next to a tag,
+ * heading, lead and a list of features. The default slot closes the column.
+ */
+import Icon from './Icon.astro';
+import type { Tint } from './Vis.astro';
+
+interface Props {
+  id: string;
+  tag: string;
+  title: string;
+  lead: string;
+  features: { title: string; text: string }[];
+  /** Background of the tag and check discs. */
+  tint: Tint;
+  /** Text colour of the tag. */
+  tagInk: string;
+  /** Colour of the check marks. */
+  check: string;
+  /** Illustration on the right. */
+  reverse?: boolean;
+  /** Features in one column instead of two. */
+  single?: boolean;
+}
+
+const { id, tag, title, lead, features, tint, tagInk, check, reverse = false, single = false } = Astro.props;
+---
+
+<section
+  class:list={['section detail', { 'detail--reverse': reverse }]}
+  id={id}
+  aria-labelledby={`${id}-title`}
+  style={`--tint:var(--${tint});--tag-ink:${tagInk};--check:${check}`}
+>
+  <div class:list={['container split', { 'split--reverse': reverse }]}>
+    <div class="split__visual">
+      <slot name="visual" />
+    </div>
+    <div class="split__copy">
+      <p class="tag" data-reveal>{tag}</p>
+      <h2 class="h2 h2--detail" id={`${id}-title`} data-reveal>{title}</h2>
+      <p class="lead" data-reveal>{lead}</p>
+      <ul class:list={['features', { 'features--single': single }]} data-stagger>
+        {features.map((f) => (
+          <li class="feature" data-reveal>
+            <span class="feature__check"><Icon name="check" /></span>
+            <div><h3 class="feature__title">{f.title}</h3><p class="feature__text">{f.text}</p></div>
+          </li>
+        ))}
+      </ul>
+      <slot />
+    </div>
+  </div>
+</section>

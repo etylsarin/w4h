@@ -1,0 +1,40 @@
+---
+import Icon, { type IconName } from '../components/Icon.astro';
+import Vis from '../components/Vis.astro';
+import VisImage from '../components/VisImage.astro';
+import watch from '../assets/img/w4h-watch.svg';
+import gateway from '../assets/img/w4h-gateway.svg';
+
+const benefits: { icon: IconName; title: string; text: string }[] = [
+  { icon: 'shield', title: 'Vyšší bezpečí pacientů', text: 'Kontinuální monitoring násobně zvyšuje bezpečí pacientů.' },
+  { icon: 'clipboard', title: 'Vyšší kvalita péče', text: 'Vitální funkce se měří, zapisují a vyhodnocují automaticky.' },
+  { icon: 'clock', title: 'Efektivnější péče', text: 'Zefektivňuje práci sester a lékařů i plánování návštěv.' },
+  { icon: 'home', title: 'Jeden systém, více možností', text: 'Pro nemocniční, domácí i následnou péči.' },
+];
+---
+
+<section class="section why" id="proc" aria-labelledby="why-title">
+  <div class="container split">
+    <div class="split__visual">
+      <Vis variant="why" animate circle={{ x: 1.85, y: 1.85, w: 96.3, tint: 'ice' }}>
+        <VisImage src={watch} alt="Hodinky W4H" x={-11.85} y={-7.41} w={103.7} />
+        <VisImage src={gateway} alt="Datová brána W4H – světle šedá krabička se zeleným nápisem W4h" x={36.3} y={46.3} w={70.37} delay="late" />
+      </Vis>
+    </div>
+    <div class="split__copy">
+      <p class="eyebrow" data-reveal>Proč W4H</p>
+      <h2 class="h2" id="why-title" data-reveal>Pacient pod dohledem i mezi vizitami</h2>
+      <p class="lead" data-reveal>Hodinky a datová brána W4H hlídají vitální funkce kontinuálně. Personál vidí, kdo potřebuje pozornost nejdřív.</p>
+      <ul class="benefits" data-stagger>
+        {benefits.map((b) => (
+          <li class="benefit" data-reveal>
+            <span class="icon-disc" style="--c:var(--ice)"><Icon name={b.icon} /></span>
+            <h3 class="benefit__title">{b.title}</h3>
+            <p class="benefit__text">{b.text}</p>
+          </li>
+        ))}
+      </ul>
+      <a class="text-link" href="#jak" data-reveal>Jak to funguje<Icon name="arrow" /></a>
+    </div>
+  </div>
+</section>

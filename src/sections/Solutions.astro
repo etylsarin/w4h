@@ -1,0 +1,59 @@
+---
+import Icon from '../components/Icon.astro';
+import Vis, { type Tint } from '../components/Vis.astro';
+import VisImage from '../components/VisImage.astro';
+import ward from '../assets/img/ui-virtual-ward-tablet.svg';
+import phone from '../assets/img/ui-patient-app-phone.svg';
+import facility from '../assets/img/illustration-care-facility.svg';
+
+const solutions: {
+  id: string;
+  title: string;
+  text: string;
+  tint: Tint;
+  image: { src: ImageMetadata; alt: string; x: number; y: number; w: number };
+}[] = [
+  {
+    id: 'hospital',
+    title: 'W4H Hospital',
+    text: 'Akutní péče v nemocnicích – virtuální oddělení s notifikacemi pro sestry.',
+    tint: 'ice',
+    image: { src: ward, alt: 'Tablet s virtuálním oddělením W4H', x: -1.76, y: 20.59, w: 103.53 },
+  },
+  {
+    id: 'clinic',
+    title: 'W4H Clinic',
+    text: 'Ambulantní a domácí využití – pro pacienty se srdečním selháním i těhotné pacientky.',
+    tint: 'sand',
+    image: { src: phone, alt: 'Telefon s aplikací pro pacienty a grafy vitálních funkcí', x: 25.88, y: 2.35, w: 50 },
+  },
+  {
+    id: 'home',
+    title: 'W4H Home & Long Term Care',
+    text: 'LDN, domovy pro seniory a rehabilitační zařízení – vitální funkce, pády i SOS.',
+    tint: 'blush',
+    image: { src: facility, alt: 'Ilustrace zařízení dlouhodobé péče', x: -1.18, y: 5.88, w: 105.88 },
+  },
+];
+---
+
+<section class="section solutions" id="reseni" aria-labelledby="solutions-title">
+  <div class="container">
+    <header class="section-head">
+      <h2 class="h2" id="solutions-title" data-reveal>Tři řešení pro tři oblasti péče</h2>
+      <p class="lead" data-reveal>W4H nasadíte v nemocnici, v ambulanci i v zařízeních dlouhodobé péče. Každá verze je přizpůsobená tomu, jak se v daném prostředí pečuje.</p>
+    </header>
+    <ul class="solution-grid" data-stagger>
+      {solutions.map((s) => (
+        <li class="solution-card" data-reveal>
+          <Vis variant="solution" circle={{ x: 5.88, y: 5.88, w: 88.24, tint: s.tint }}>
+            <VisImage {...s.image} />
+          </Vis>
+          <h3 class="solution-card__title">{s.title}</h3>
+          <p class="solution-card__text">{s.text}</p>
+          <a class="text-link text-link--stretch" href={`#${s.id}`}>Více o řešení<span class="visually-hidden"> {s.title}</span><Icon name="arrow" /></a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

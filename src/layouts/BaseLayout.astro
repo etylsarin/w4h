@@ -1,0 +1,85 @@
+---
+import { Font } from 'astro:assets';
+import IconSprite from '../components/IconSprite.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const favicon = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/favicon.svg`;
+---
+
+<!doctype html>
+<html lang="cs" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#FFFFFF" />
+    <link rel="icon" href={favicon} type="image/svg+xml" />
+    <Font cssVariable="--font-serif" preload={[{ style: 'normal', subset: 'latin' }]} />
+    <Font cssVariable="--font-sans" preload={[{ subset: 'latin' }]} />
+    <script is:inline>document.documentElement.classList.replace('no-js', 'js');</script>
+  </head>
+  <body>
+    <IconSprite />
+    <a class="skip-link" href="#obsah">Přeskočit na obsah</a>
+
+    <Header />
+
+    <main id="obsah" tabindex="-1">
+      <slot />
+    </main>
+
+    <Footer />
+
+    <script>
+      import { $$, reduceMotion, onScrollFrame } from '../scripts/dom';
+
+      /* Odhalení při scrollu + postupné zpoždění v seznamech */
+      function initReveal() {
+        $$('[data-stagger]').forEach((list) => {
+          $$('[data-reveal]', list).forEach((el, i) => el.style.setProperty('--d', `${i * 90}ms`));
+        });
+        const els = $$('[data-reveal], [data-steps]');
+        if (!('IntersectionObserver' in window) || reduceMotion.matches) {
+          els.forEach((el) => el.classList.add('is-in'));
+          return;
+        }
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((en) => {
+            if (!en.isIntersecting) return;
+            en.target.classList.add('is-in');
+            io.unobserve(en.target);
+          });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.12 });
+        els.forEach((el) => io.observe(el));
+      }
+
+      /* Parallax kompozic při scrollu */
+      function initParallax() {
+        const els = $$('[data-parallax]');
+        if (!els.length || reduceMotion.matches) return;
+        onScrollFrame(() => {
+          const vh = window.innerHeight;
+          els.forEach((el) => {
+            const r = el.getBoundingClientRect();
+            if (r.bottom < -100 || r.top > vh + 100) return;
+            const speed = parseFloat(el.dataset.parallax ?? '') || 0.05;
+            const offset = (r.top + r.height / 2 - vh / 2) * -speed;
+            el.style.setProperty('--py', `${offset.toFixed(1)}px`);
+          });
+        });
+      }
+
+      initReveal();
+      initParallax();
+    </script>
+  </body>
+</html>

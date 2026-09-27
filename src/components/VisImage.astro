@@ -1,0 +1,24 @@
+---
+/** Illustration placed inside a <Vis> composition. */
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  x: number;
+  y: number;
+  w: number;
+  /** Enter after the first item when the composition is revealed. */
+  delay?: 'late' | 'later';
+}
+
+const { src, alt, x, y, w, delay } = Astro.props;
+---
+
+<img
+  class:list={['vis__item', delay && `vis__item--${delay}`]}
+  style={`--x:${x}%;--y:${y}%;--w:${w}%`}
+  src={src.src}
+  width={src.width}
+  height={src.height}
+  alt={alt}
+  loading="lazy"
+/>
