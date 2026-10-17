@@ -2,33 +2,42 @@
 import Icon from '../components/Icon.astro';
 import Vis, { type Tint } from '../components/Vis.astro';
 import VisImage from '../components/VisImage.astro';
-import ward from '../assets/img/ui-virtual-ward-tablet.svg';
-import phone from '../assets/img/ui-patient-app-phone.svg';
 import facility from '../assets/img/illustration-care-facility.svg';
-import { useTranslations, type Dictionary } from '../i18n';
+import { toLocale, useTranslations } from '../i18n';
+import { localizedImage } from '../i18n/images';
+import { pageUrl, type SolutionId } from '../i18n/routes';
 
-const t = useTranslations(Astro.currentLocale);
+interface Props {
+  /** On a solution page: list only the other solutions. */
+  exclude?: SolutionId;
+}
 
-/** Card key doubles as the id of the solution's detail section. */
-const solutions: {
-  id: keyof Dictionary['solutions']['items'];
-  tint: Tint;
-  image: { src: ImageMetadata; x: number; y: number; w: number };
-}[] = [
+const { exclude } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const ward = localizedImage('ward', locale);
+const phone = localizedImage('phone', locale);
+
+const solutions: { id: SolutionId; tint: Tint; image: { src: ImageMetadata; x: number; y: number; w: number } }[] = [
   { id: 'hospital', tint: 'ice', image: { src: ward, x: -1.76, y: 20.59, w: 103.53 } },
   { id: 'clinic', tint: 'sand', image: { src: phone, x: 25.88, y: 2.35, w: 50 } },
-  { id: 'home', tint: 'blush', image: { src: facility, x: -1.18, y: 5.88, w: 105.88 } },
+  { id: 'homeCare', tint: 'blush', image: { src: facility, x: -1.18, y: 5.88, w: 105.88 } },
 ];
+const shown = solutions.filter((s) => s.id !== exclude);
 ---
 
-<section class="section solutions" id="reseni" aria-labelledby="solutions-title">
+<section
+  class:list={['section solutions', { 'solutions--other': exclude }]}
+  id={exclude ? undefined : 'reseni'}
+  aria-labelledby="solutions-title"
+>
   <div class="container">
     <header class="section-head">
-      <h2 class="h2" id="solutions-title" data-reveal>{t.solutions.title}</h2>
-      <p class="lead" data-reveal>{t.solutions.lead}</p>
+      <h2 class="h2" id="solutions-title" data-reveal>{exclude ? t.solutions.otherTitle : t.solutions.title}</h2>
+      {!exclude && <p class="lead" data-reveal>{t.solutions.lead}</p>}
     </header>
     <ul class="solution-grid" data-stagger>
-      {solutions.map((s) => {
+      {shown.map((s) => {
         const item = t.solutions.items[s.id];
         return (
           <li class="solution-card" data-reveal>
@@ -37,7 +46,7 @@ const solutions: {
             </Vis>
             <h3 class="solution-card__title">{item.title}</h3>
             <p class="solution-card__text">{item.text}</p>
-            <a class="text-link text-link--stretch" href={`#${s.id}`}>{t.solutions.more}<span class="visually-hidden"> {item.title}</span><Icon name="arrow" /></a>
+            <a class="text-link text-link--stretch" href={pageUrl(s.id, locale)}>{t.solutions.more}<span class="visually-hidden"> {item.title}</span><Icon name="arrow" /></a>
           </li>
         );
       })}

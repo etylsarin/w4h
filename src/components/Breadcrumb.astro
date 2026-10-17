@@ -1,0 +1,30 @@
+---
+/** Breadcrumb trail; the last item is the current page. Also described for search engines. */
+import { toLocale, useTranslations } from '../i18n';
+
+interface Props {
+  items: { label: string; href?: string }[];
+}
+
+const { items } = Astro.props;
+const t = useTranslations(toLocale(Astro.currentLocale));
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.label,
+    ...(item.href && { item: new URL(item.href, Astro.site).href }),
+  })),
+};
+---
+
+<nav class="breadcrumb" aria-label={t.breadcrumb.label}>
+  <ol>
+    {items.map((item, i) => (
+      <li>{i < items.length - 1 && item.href ? <a href={item.href}>{item.label}</a> : <span aria-current="page">{item.label}</span>}</li>
+    ))}
+  </ol>
+</nav>
+<script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />

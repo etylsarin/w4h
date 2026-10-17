@@ -1,10 +1,19 @@
 ---
 import Icon from '../components/Icon.astro';
-import { contact } from '../data/site';
-import { useTranslations } from '../i18n';
+import { company } from '../data/site';
+import { toLocale, useTranslations } from '../i18n';
+import { pageUrl } from '../i18n/routes';
 
-const t = useTranslations(Astro.currentLocale);
+interface Props {
+  /** Type of care selected in the form; solution pages preselect their own. */
+  careType?: 'nemocnice' | 'ambulance' | 'dlouhodoba';
+}
+
+const { careType = 'nemocnice' } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
 const f = t.contact.fields;
+const [privacyBefore, privacyAfter] = t.contact.privacyNote.split('{link}');
 ---
 
 <section class="contact" id="kontakt" aria-labelledby="demo-title">
@@ -14,9 +23,9 @@ const f = t.contact.fields;
         <h2 class="h2 h2--demo" id="demo-title">{t.contact.title}</h2>
         <p class="lead">{t.contact.lead}</p>
         <address class="contact-list">
-          <strong>{contact.company}</strong>
-          <a href={contact.web} rel="noopener"><Icon name="globe" />{contact.webLabel}</a>
-          <a href={contact.phone}><Icon name="phone" />{contact.phoneLabel}</a>
+          <strong>{company.shortName}</strong>
+          <a href={company.web} rel="noopener"><Icon name="globe" />{company.webLabel}</a>
+          <a href={company.phone}><Icon name="phone" />{company.phoneLabel}</a>
         </address>
       </div>
 
@@ -35,9 +44,9 @@ const f = t.contact.fields;
         <fieldset class="field field--full choice">
           <legend class="field__label">{f.careType.label}</legend>
           <div class="choice__grid">
-            <label class="choice__option"><input type="radio" name="typ" value="nemocnice" checked /><span class="choice__dot" aria-hidden="true"></span>{f.careType.hospital}</label>
-            <label class="choice__option"><input type="radio" name="typ" value="ambulance" /><span class="choice__dot" aria-hidden="true"></span>{f.careType.clinic}</label>
-            <label class="choice__option"><input type="radio" name="typ" value="dlouhodoba" /><span class="choice__dot" aria-hidden="true"></span>{f.careType.longTerm}</label>
+            <label class="choice__option"><input type="radio" name="typ" value="nemocnice" checked={careType === 'nemocnice'} /><span class="choice__dot" aria-hidden="true"></span>{f.careType.hospital}</label>
+            <label class="choice__option"><input type="radio" name="typ" value="ambulance" checked={careType === 'ambulance'} /><span class="choice__dot" aria-hidden="true"></span>{f.careType.clinic}</label>
+            <label class="choice__option"><input type="radio" name="typ" value="dlouhodoba" checked={careType === 'dlouhodoba'} /><span class="choice__dot" aria-hidden="true"></span>{f.careType.longTerm}</label>
           </div>
         </fieldset>
         <div class="field">
@@ -54,6 +63,7 @@ const f = t.contact.fields;
           <label class="field__label" for="f-zprava">{f.message.label}</label>
           <textarea class="field__input field__input--area" id="f-zprava" name="zprava" rows="3" placeholder={f.message.placeholder}></textarea>
         </div>
+        <p class="demo-form__privacy field--full">{privacyBefore}<a href={pageUrl('privacy', locale)}>{t.contact.privacyLink}</a>{privacyAfter}</p>
         <div class="demo-form__actions field--full">
           <p class="demo-form__hint"><span aria-hidden="true">*</span> {t.contact.required}</p>
           <button class="btn btn--primary btn--lg" type="submit" data-submit><span class="btn__label">{t.contact.submit}</span><span class="btn__spinner" aria-hidden="true"></span></button>

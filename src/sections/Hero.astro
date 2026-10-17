@@ -1,10 +1,12 @@
 ---
 import Icon from '../components/Icon.astro';
 import watch from '../assets/img/w4h-watch.svg';
-import seal from '../assets/img/seal-mdr-ring.svg';
-import { format, formatNumber, useTranslations } from '../i18n';
+import { toLocale, format, formatNumber, useTranslations } from '../i18n';
+import { localizedImage } from '../i18n/images';
 
-const t = useTranslations(Astro.currentLocale);
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const seal = localizedImage('seal', locale);
 const { tags, units } = t.vitals;
 ---
 
@@ -27,7 +29,7 @@ const { tags, units } = t.vitals;
     <div class="hero__visual vis vis--hero" data-hero-visual data-enter style="--d:200ms">
       <span class="vis__circle hero__circle" style="--c:var(--ice)" aria-hidden="true"></span>
       <div class="layer hero__watch" style="--depth:.6">
-        <img src={watch.src} width={watch.width} height={watch.height} alt={t.hero.watchAlt} />
+        <img src={watch.src} width={watch.width} height={watch.height} alt={t.hero.watchAlt} fetchpriority="high" />
       </div>
       <div class="layer hero__seal" style="--depth:1.4">
         <div class="seal"><img src={seal.src} width={seal.width} height={seal.height} alt="" /><span class="seal__text">MDR</span></div>

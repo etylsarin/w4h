@@ -2,11 +2,13 @@
 import SolutionDetail from '../components/SolutionDetail.astro';
 import Vis from '../components/Vis.astro';
 import VisImage from '../components/VisImage.astro';
-import ecg from '../assets/img/ui-ecg-report-tablet.svg';
-import phone from '../assets/img/ui-patient-app-phone.svg';
-import { useTranslations } from '../i18n';
+import { toLocale, useTranslations } from '../i18n';
+import { localizedImage } from '../i18n/images';
 
-const t = useTranslations(Astro.currentLocale);
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const ecg = localizedImage('ecg', locale);
+const phone = localizedImage('phone', locale);
 const d = t.details.clinic;
 ---
 

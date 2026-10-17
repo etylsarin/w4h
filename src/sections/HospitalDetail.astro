@@ -3,10 +3,12 @@ import Icon from '../components/Icon.astro';
 import SolutionDetail from '../components/SolutionDetail.astro';
 import Vis from '../components/Vis.astro';
 import VisImage from '../components/VisImage.astro';
-import ward from '../assets/img/ui-virtual-ward-tablet.svg';
-import { useTranslations } from '../i18n';
+import { toLocale, useTranslations } from '../i18n';
+import { localizedImage } from '../i18n/images';
 
-const t = useTranslations(Astro.currentLocale);
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const ward = localizedImage('ward', locale);
 const d = t.details.hospital;
 ---
 

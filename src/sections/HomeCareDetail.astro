@@ -8,13 +8,13 @@ import watch from '../assets/img/w4h-watch.svg';
 import { useTranslations } from '../i18n';
 
 const t = useTranslations(Astro.currentLocale);
-const d = t.details.home;
+const d = t.details.homeCare;
 ---
 
 <SolutionDetail
-  id="home"
+  id="home-care"
   tag={d.tag}
-  title={t.solutions.items.home.title}
+  title={t.solutions.items.homeCare.title}
   lead={d.lead}
   features={d.features}
   tint="blush"

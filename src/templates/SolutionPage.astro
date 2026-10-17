@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HospitalDetail from '../sections/HospitalDetail.astro';
+import ClinicDetail from '../sections/ClinicDetail.astro';
+import HomeCareDetail from '../sections/HomeCareDetail.astro';
+import HowItWorks from '../sections/HowItWorks.astro';
+import Devices from '../sections/Devices.astro';
+import Trust from '../sections/Trust.astro';
+import Solutions from '../sections/Solutions.astro';
+import Contact from '../sections/Contact.astro';
+import { useTranslations } from '../i18n';
+import type { SolutionId } from '../i18n/routes';
+
+interface Props {
+  solution: SolutionId;
+}
+
+const { solution } = Astro.props;
+const t = useTranslations(Astro.currentLocale);
+const Detail = { hospital: HospitalDetail, clinic: ClinicDetail, homeCare: HomeCareDetail }[solution];
+/** The demo form starts with this page's type of care selected. */
+const careType = ({ hospital: 'nemocnice', clinic: 'ambulance', homeCare: 'dlouhodoba' } as const)[solution];
+---
+
+<BaseLayout page={solution} title={t.details[solution].metaTitle} description={t.details[solution].metaDescription}>
+  <Detail />
+  <HowItWorks />
+  <Devices />
+  <Trust />
+  <Solutions exclude={solution} />
+  <Contact careType={careType} />
+</BaseLayout>

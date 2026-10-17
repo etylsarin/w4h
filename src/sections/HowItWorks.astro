@@ -6,10 +6,12 @@ import scanner from '../assets/img/scanner-2d.svg';
 import watch from '../assets/img/w4h-watch.svg';
 import bpMonitor from '../assets/img/ble-blood-pressure-monitor.svg';
 import gateway from '../assets/img/w4h-gateway.svg';
-import ward from '../assets/img/ui-virtual-ward-tablet.svg';
-import { useTranslations, type Dictionary } from '../i18n';
+import { toLocale, useTranslations, type Dictionary } from '../i18n';
+import { localizedImage } from '../i18n/images';
 
-const t = useTranslations(Astro.currentLocale);
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const ward = localizedImage('ward', locale);
 
 type StepImage = { src: ImageMetadata; alt: keyof Dictionary['how']['alt']; x: number; y: number; w: number; delay?: 'late' };
 

@@ -3,23 +3,26 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Watch 4 Health – marketing site",
+  "description": "Watch 4 Health \u2013 marketing site",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "astro": "astro"
+    "astro": "astro",
+    "copy:export": "node scripts/export-copy.mjs"
   },
   "engines": {
     "node": ">=22.12.0"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.3.5"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@types/node": "^22.20.4",
+    "docx": "^9.12.0",
     "typescript": "^6.0.3"
   }
 }

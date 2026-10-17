@@ -19,3 +19,6 @@ pnpm-debug.log*
 
 # macOS
 .DS_Store
+
+# copy review export (npm run copy:export)
+w4h-copy-review.docx

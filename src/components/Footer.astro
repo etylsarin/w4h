@@ -1,52 +1,60 @@
 ---
-import Icon from './Icon.astro';
-import { contact } from '../data/site';
-import { useTranslations } from '../i18n';
+import { Image } from 'astro:assets';
+import preadicoLogo from '../assets/img/logo-preadico.svg';
+import scalesoftLogo from '../assets/img/logo-scalesoft.png';
+import { company } from '../data/site';
+import { toLocale, useTranslations } from '../i18n';
+import { isSolution, pageUrl, solutionIds, type PageId } from '../i18n/routes';
 
-const t = useTranslations(Astro.currentLocale);
+interface Props {
+  page: PageId;
+}
+
+const { page } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const home = pageUrl('index', locale);
+const sectionHref = (id: string) => (page === 'index' ? `#${id}` : `${home}#${id}`);
+const demoHref = page === 'index' || isSolution(page) ? '#kontakt' : `${home}#kontakt`;
 ---
 
 <footer class="site-footer">
   <div class="container">
     <div class="site-footer__grid">
       <div class="site-footer__brand">
-        <a class="brand brand--footer" href="#top" aria-label={t.footer.homeLabel}>
-          <Icon name="mark" class="brand__mark" />
-          <span class="brand__name">W4H</span>
+        <a class="brand brand--footer" href={home} aria-label={t.header.homeLabel}>
+          <img class="brand__logo" src={preadicoLogo.src} width={preadicoLogo.width} height={preadicoLogo.height} alt="" loading="lazy" />
         </a>
         <p>{t.footer.tagline}</p>
-        <div class="logo-row">
-          {/* Místo pro vektorové logo Preadico (dodá klient) */}
-          <span class="logo-slot">{t.footer.logoPlaceholder}</span>
-          <span class="powered">{t.footer.poweredBy} <span class="logo-slot logo-slot--sm">Scalesoft</span></span>
-        </div>
+        <p class="powered">
+          {t.footer.poweredBy}
+          <a class="powered__logo" href="https://scalesoft.cz/" rel="noopener">
+            <Image src={scalesoftLogo} alt="Scalesoft" height={24} densities={[1, 2]} />
+          </a>
+        </p>
       </div>
       <nav class="site-footer__col" aria-label={t.footer.solutions}>
         <h2 class="site-footer__head">{t.footer.solutions}</h2>
-        <a href="#hospital">{t.solutions.items.hospital.title}</a>
-        <a href="#clinic">{t.solutions.items.clinic.title}</a>
-        <a href="#home">{t.solutions.items.home.title}</a>
+        {solutionIds.map((id) => <a href={pageUrl(id, locale)}>{t.solutions.items[id].title}</a>)}
       </nav>
       <nav class="site-footer__col" aria-label={t.footer.product}>
         <h2 class="site-footer__head">{t.footer.product}</h2>
-        <a href="#jak">{t.nav.jak}</a>
-        <a href="#zarizeni">{t.nav.zarizeni}</a>
-        <a href="#kontakt">{t.common.bookDemo}</a>
+        <a href={sectionHref('jak')}>{t.nav.jak}</a>
+        <a href={sectionHref('zarizeni')}>{t.nav.zarizeni}</a>
+        <a href={demoHref}>{t.common.bookDemo}</a>
       </nav>
       <div class="site-footer__col">
         <h2 class="site-footer__head">{t.footer.contact}</h2>
-        <span>{contact.company}</span>
-        <a href={contact.web} rel="noopener">{contact.webLabel}</a>
-        <a href={contact.phone}>{contact.phoneLabel}</a>
+        <span>{company.shortName}</span>
+        <a href={company.web} rel="noopener">{company.webLabel}</a>
+        <a href={company.phone}>{company.phoneLabel}</a>
       </div>
     </div>
     <div class="site-footer__bottom">
       <p>© <span data-year>{new Date().getFullYear()}</span> {t.footer.rights}</p>
-      {/* Právní stránky zatím neexistují – doplňte odkazy. */}
       <ul class="site-footer__legal">
-        <li><a href="#">{t.footer.legal.privacy}</a></li>
-        <li><a href="#">{t.footer.legal.cookies}</a></li>
-        <li><a href="#">{t.footer.legal.terms}</a></li>
+        <li><a href={pageUrl('privacy', locale)} aria-current={page === 'privacy' ? 'page' : undefined}>{t.footer.legal.privacy}</a></li>
+        <li><a href={pageUrl('legal', locale)} aria-current={page === 'legal' ? 'page' : undefined}>{t.footer.legal.legalInfo}</a></li>
       </ul>
     </div>
   </div>

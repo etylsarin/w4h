@@ -1,0 +1,21 @@
+---
+/** Every page in every language: /, /nemocnice/, …, /en/, /en/hospital/, … (slugs in src/i18n/pages.ts). */
+import type { GetStaticPaths, InferGetStaticPropsType } from 'astro';
+import HomePage from '../templates/HomePage.astro';
+import SolutionPage from '../templates/SolutionPage.astro';
+import LegalPage from '../templates/LegalPage.astro';
+import { defaultLocale, locales } from '../i18n';
+import { isSolution, pageIds, pageSlugs } from '../i18n/routes';
+
+export const getStaticPaths = (() =>
+  locales.flatMap((locale) =>
+    pageIds.map((page) => ({
+      params: { path: [locale === defaultLocale ? '' : locale, pageSlugs[page][locale]].filter(Boolean).join('/') || undefined },
+      props: { page },
+    })),
+  )) satisfies GetStaticPaths;
+
+const { page } = Astro.props as InferGetStaticPropsType<typeof getStaticPaths>;
+---
+
+{page === 'index' ? <HomePage /> : isSolution(page) ? <SolutionPage solution={page} /> : <LegalPage page={page} />}

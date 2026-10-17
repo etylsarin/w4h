@@ -1,23 +1,38 @@
 ---
-import { getRelativeLocaleUrl } from 'astro:i18n';
 import Icon from './Icon.astro';
+import logo from '../assets/img/logo-preadico.svg';
 import { navIds } from '../data/site';
 import { localeLabels, locales, toLocale, useTranslations } from '../i18n';
+import { isSolution, pageUrl, type PageId } from '../i18n/routes';
 
+interface Props {
+  page: PageId;
+}
+
+const { page } = Astro.props;
 const locale = toLocale(Astro.currentLocale);
 const t = useTranslations(locale);
+const home = pageUrl('index', locale);
+const onHome = page === 'index';
+/** On the home page the menu scrolls to sections; on other pages it leads back to them. */
+const sectionHref = (id: string) => (onHome ? `#${id}` : `${home}#${id}`);
+/** Solution pages have their own demo form at the bottom. */
+const demoHref = onHome || isSolution(page) ? '#kontakt' : `${home}#kontakt`;
+/** On a solution page, "Řešení" is the current section. */
+const isCurrent = (id: string) => (isSolution(page) && id === 'reseni' ? 'true' : undefined);
 ---
 
 <header class="site-header" data-header>
   <div class="container site-header__inner">
-    <a class="brand" href="#top" aria-label={t.header.homeLabel}>
-      <Icon name="mark" class="brand__mark" />
-      <span class="brand__name">W4H</span>
+    <a class="brand" href={onHome ? '#top' : home} aria-label={t.header.homeLabel}>
+      <img class="brand__logo" src={logo.src} width={logo.width} height={logo.height} alt="" fetchpriority="high" />
     </a>
 
     <nav class="main-nav" aria-label={t.header.navLabel}>
       <ul class="main-nav__list">
-        {navIds.map((id) => <li><a class="nav-link" href={`#${id}`} data-spy={id}>{t.nav[id]}</a></li>)}
+        {navIds.map((id) => (
+          <li><a class="nav-link" href={sectionHref(id)} data-spy={onHome ? id : undefined} aria-current={isCurrent(id)}>{t.nav[id]}</a></li>
+        ))}
       </ul>
     </nav>
 
@@ -27,7 +42,7 @@ const t = useTranslations(locale);
         {locales.map((l) => (
           <a
             class="lang-switch__btn"
-            href={getRelativeLocaleUrl(l)}
+            href={pageUrl(page, l)}
             hreflang={l}
             lang={l}
             title={localeLabels[l].name}
@@ -35,7 +50,7 @@ const t = useTranslations(locale);
           >{localeLabels[l].short}</a>
         ))}
       </nav>
-      <a class="btn btn--primary btn--sm site-header__cta" href="#kontakt">{t.common.bookDemo}</a>
+      <a class="btn btn--primary btn--sm site-header__cta" href={demoHref}>{t.common.bookDemo}</a>
       <button
         type="button"
         class="menu-toggle"
@@ -55,10 +70,10 @@ const t = useTranslations(locale);
   <div class="mobile-menu" id="mobilni-menu" data-menu hidden>
     <nav aria-label={t.header.mobileNavLabel}>
       <ul class="mobile-menu__list">
-        {navIds.map((id) => <li><a href={`#${id}`}>{t.nav[id]}</a></li>)}
+        {navIds.map((id) => <li><a href={sectionHref(id)} aria-current={isCurrent(id)}>{t.nav[id]}</a></li>)}
       </ul>
     </nav>
-    <a class="btn btn--primary btn--block" href="#kontakt">{t.common.bookDemo}</a>
+    <a class="btn btn--primary btn--block" href={demoHref}>{t.common.bookDemo}</a>
   </div>
 </header>
 
@@ -140,11 +155,11 @@ const t = useTranslations(locale);
     });
   }
 
-  /* Scrollspy: zvýrazní položku navigace podle sekce ve výřezu */
+  /* Scrollspy (jen na úvodní stránce): zvýrazní položku navigace podle sekce ve výřezu */
   function initScrollspy() {
     const links = $$('[data-spy]');
     if (!links.length || !('IntersectionObserver' in window)) return;
-    const groups: Record<string, string[]> = { reseni: ['reseni', 'hospital', 'clinic', 'home'], jak: ['jak', 'rytmus'], zarizeni: ['zarizeni'], kontakt: ['kontakt'] };
+    const groups: Record<string, string[]> = { reseni: ['reseni'], jak: ['jak', 'rytmus'], zarizeni: ['zarizeni'], kontakt: ['kontakt'] };
     const owner: Record<string, string> = {};
     Object.entries(groups).forEach(([key, ids]) => ids.forEach((id) => { owner[id] = key; }));
     const sections = Object.keys(owner).map((id) => document.getElementById(id)).filter((s): s is HTMLElement => s !== null);

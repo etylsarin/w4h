@@ -1,10 +1,13 @@
 ---
 /**
- * Detail section of one solution: illustration (slot "visual") next to a tag,
- * heading, lead and a list of features. The default slot closes the column.
+ * Top of a solution page: illustration (slot "visual") next to a breadcrumb, tag,
+ * page heading, lead and a list of features. The default slot closes the column.
  */
+import Breadcrumb from './Breadcrumb.astro';
 import Icon from './Icon.astro';
 import type { Tint } from './Vis.astro';
+import { toLocale, useTranslations } from '../i18n';
+import { pageUrl } from '../i18n/routes';
 
 interface Props {
   id: string;
@@ -25,6 +28,9 @@ interface Props {
 }
 
 const { id, tag, title, lead, features, tint, tagInk, check, reverse = false, single = false } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const home = pageUrl('index', locale);
 ---
 
 <section
@@ -38,14 +44,15 @@ const { id, tag, title, lead, features, tint, tagInk, check, reverse = false, si
       <slot name="visual" />
     </div>
     <div class="split__copy">
+      <Breadcrumb items={[{ label: t.breadcrumb.home, href: home }, { label: t.nav.reseni, href: `${home}#reseni` }, { label: title }]} />
       <p class="tag" data-reveal>{tag}</p>
-      <h2 class="h2 h2--detail" id={`${id}-title`} data-reveal>{title}</h2>
+      <h1 class="h2 h2--detail" id={`${id}-title`} data-reveal>{title}</h1>
       <p class="lead" data-reveal>{lead}</p>
       <ul class:list={['features', { 'features--single': single }]} data-stagger>
         {features.map((f) => (
           <li class="feature" data-reveal>
             <span class="feature__check"><Icon name="check" /></span>
-            <div><h3 class="feature__title">{f.title}</h3><p class="feature__text">{f.text}</p></div>
+            <div><h2 class="feature__title">{f.title}</h2><p class="feature__text">{f.text}</p></div>
           </li>
         ))}
       </ul>

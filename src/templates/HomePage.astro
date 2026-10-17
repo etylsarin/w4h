@@ -1,33 +1,24 @@
 ---
-/** The one-page site, built once per language: / (Czech) and /en/ (English). */
-import type { GetStaticPaths } from 'astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../sections/Hero.astro';
 import Facts from '../sections/Facts.astro';
 import Why from '../sections/Why.astro';
 import Solutions from '../sections/Solutions.astro';
-import HospitalDetail from '../sections/HospitalDetail.astro';
-import ClinicDetail from '../sections/ClinicDetail.astro';
-import HomeCareDetail from '../sections/HomeCareDetail.astro';
 import HowItWorks from '../sections/HowItWorks.astro';
 import Rhythm from '../sections/Rhythm.astro';
 import Devices from '../sections/Devices.astro';
 import Trust from '../sections/Trust.astro';
 import Contact from '../sections/Contact.astro';
-import { defaultLocale, locales } from '../i18n';
+import { useTranslations } from '../i18n';
 
-export const getStaticPaths = (() =>
-  locales.map((locale) => ({ params: { locale: locale === defaultLocale ? undefined : locale } }))) satisfies GetStaticPaths;
+const t = useTranslations(Astro.currentLocale);
 ---
 
-<BaseLayout>
+<BaseLayout page="index" title={t.meta.title} description={t.meta.description}>
   <Hero />
   <Facts />
   <Why />
   <Solutions />
-  <HospitalDetail />
-  <ClinicDetail />
-  <HomeCareDetail />
   <HowItWorks />
   <Rhythm />
   <Devices />

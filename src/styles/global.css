@@ -101,10 +101,8 @@ main, .site-footer { overflow-x: clip; }
 /* 4 · KOMPONENTY --------------------------------------------------------- */
 
 /* Značka */
-.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); }
-.brand__mark { width: 30px; height: 30px; flex: none; transition: transform .6s var(--ease-out); }
-.brand:hover .brand__mark, .brand:focus-visible .brand__mark { transform: rotate(90deg); } /* čtvrt otáčky = 15 minut */
-.brand__name { font-family: var(--serif); font-size: 28px; letter-spacing: .02em; line-height: 1; }
+.brand { display: inline-flex; align-items: center; flex: none; }
+.brand__logo { width: auto; height: 24px; }
 
 /* Tlačítka */
 .btn {
@@ -374,7 +372,6 @@ main, .site-footer { overflow-x: clip; }
 .section { padding-block: clamp(56px, 7vw, 96px); }
 .why { padding-top: 48px; padding-bottom: 40px; }
 .detail { padding-block: clamp(40px, 4vw, 56px); }
-#home.detail { padding-bottom: clamp(56px, 5vw, 72px); }
 .split { display: grid; grid-template-columns: minmax(0, 560px) minmax(0, 580px); justify-content: space-between; align-items: center; gap: 48px; }
 .split--reverse { grid-template-columns: minmax(0, 580px) minmax(0, 560px); }
 .split--reverse .split__visual { order: 2; }
@@ -414,6 +411,7 @@ main, .site-footer { overflow-x: clip; }
 .solution-card__title { margin-top: 10px; font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.1; }
 .solution-card__text { max-width: 320px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
 .solution-card:hover .text-link svg { transform: translateX(5px); }
+.solutions--other .solution-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 800px; margin-inline: auto; }
 
 /* Jak to funguje */
 .how { background: var(--bg-soft); border-top: 1px solid var(--neutral); padding-bottom: 56px; }
@@ -577,6 +575,8 @@ main, .site-footer { overflow-x: clip; }
 
 .demo-form__actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
 .demo-form__hint { font-size: 13px; color: var(--muted); }
+.demo-form__privacy { font-size: 13px; line-height: 1.5; color: var(--muted); }
+.demo-form__privacy a { text-decoration: underline; text-underline-offset: 3px; }
 
 .demo-success { grid-column: 2; min-height: 420px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 14px; outline: none; }
 .demo-success[hidden] { display: none; }
@@ -593,14 +593,11 @@ main, .site-footer { overflow-x: clip; }
 .site-footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 48px; }
 .site-footer__brand { display: flex; flex-direction: column; gap: 20px; }
 .site-footer__brand p { max-width: 300px; font-size: 15px; line-height: 1.6; color: #A7AFBC; }
-.brand--footer { color: var(--blue); --mark-accent: var(--blue); align-self: flex-start; }
-.brand--footer .brand__mark { width: 36px; height: 36px; }
-.brand--footer .brand__name { font-size: 40px; }
-.site-footer .brand--footer { color: var(--blue); }
-.logo-row { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 8px; }
-.logo-slot { display: grid; place-items: center; width: 150px; height: 44px; border: 1px dashed #4B5563; border-radius: 8px; font-size: 12px; font-weight: 600; letter-spacing: .04em; color: #A7AFBC; }
-.logo-slot--sm { width: 110px; height: 34px; }
-.powered { display: flex; align-items: center; gap: 10px; font-size: 12px; color: #A7AFBC; white-space: nowrap; }
+.brand--footer { align-self: flex-start; }
+.brand--footer .brand__logo { height: 30px; }
+.site-footer__brand .powered { display: flex; align-items: center; gap: 12px; margin-top: 4px; font-size: 12px; color: #A7AFBC; white-space: nowrap; }
+.powered__logo { display: block; border-radius: 4px; }
+.powered__logo img { width: auto; height: 24px; }
 .site-footer__col { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; font-size: 15px; }
 .site-footer__head { margin-bottom: 2px; font-family: var(--sans); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #fff; }
 .site-footer a { color: #D1D5DB; transition: color .2s ease, var(--focus-tr); }
@@ -608,6 +605,30 @@ main, .site-footer { overflow-x: clip; }
 .site-footer__bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 48px; padding-top: 24px; border-top: 1px solid #1F2430; font-size: 13px; color: #A7AFBC; }
 .site-footer__legal { display: flex; flex-wrap: wrap; gap: 8px 28px; }
 .site-footer__bottom a { color: #A7AFBC; }
+.site-footer__bottom a[aria-current="page"] { color: #fff; }
+
+/* Drobečková navigace (podstránky) */
+.breadcrumb ol { display: flex; flex-wrap: wrap; gap: 4px 0; font-size: 13px; color: var(--muted); }
+.breadcrumb li + li::before { content: "/"; margin: 0 10px; color: #9CA3AF; }
+.breadcrumb a { color: var(--ink-3); transition: color .2s, var(--focus-tr); }
+.breadcrumb a:hover { color: var(--blue); }
+.breadcrumb [aria-current="page"] { color: var(--ink); font-weight: 600; }
+
+/* Právní stránky */
+.legal { padding-top: clamp(32px, 4vw, 56px); }
+.legal__inner { max-width: calc(760px + 2 * var(--pad)); }
+.legal__title { margin: 24px 0 32px; }
+.legal__effective { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+.prose { font-size: 16px; line-height: 1.7; color: var(--ink-2); }
+.prose > * + * { margin-top: 16px; }
+.prose h2 { margin-top: 40px; font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.2; color: var(--ink); }
+.prose h3 { margin-top: 28px; font-size: 18px; font-weight: 700; line-height: 1.35; color: var(--ink); }
+.prose h2 + *, .prose h3 + * { margin-top: 10px; }
+.prose ul { padding-left: 22px; list-style: disc; }
+.prose li + li { margin-top: 4px; }
+.prose strong { color: var(--ink); }
+.prose a { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; transition: color .2s, var(--focus-tr); }
+.prose a:hover { color: var(--blue-dark); }
 
 /* 6 · ANIMACE ------------------------------------------------------------ */
 @keyframes enter { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
@@ -671,7 +692,8 @@ main, .site-footer { overflow-x: clip; }
   .split, .split--reverse { grid-template-columns: 1fr; gap: 32px; }
   .split--reverse .split__visual { order: 0; }
   .split__visual { display: flex; justify-content: center; }
-  .solution-grid { grid-template-columns: 1fr; gap: 48px; max-width: 480px; margin-inline: auto; }
+  .detail .split__copy { order: -1; } /* na podstránce řešení nejdřív nadpis, pak ilustrace */
+  .solution-grid, .solutions--other .solution-grid { grid-template-columns: 1fr; gap: 48px; max-width: 480px; margin-inline: auto; }
   .steps__list { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 56px; }
   .steps__line { display: none; }
   .rhythm__head { grid-template-columns: 1fr; gap: 16px; }
@@ -692,6 +714,8 @@ main, .site-footer { overflow-x: clip; }
 }
 
 @media (max-width: 640px) {
+  .site-header__inner { gap: 12px; }
+  .brand__logo { height: 20px; }
   .hero { padding-top: 8px; }
   .hero__grid { padding-block: 24px 8px; }
   .hero__copy { gap: 20px; }
@@ -728,7 +752,6 @@ main, .site-footer { overflow-x: clip; }
   .benefit__text { font-size: 14.5px; }
 
   .features { grid-template-columns: 1fr; gap: 16px; }
-  .detail { border-top: 1px solid var(--neutral); }
 
   .steps__list { grid-template-columns: 1fr; row-gap: 22px; }
   .steps__line { display: block; left: 56px; right: auto; top: 56px; bottom: 60px; border-top: 0; border-left: 1.5px dashed #B9C6D6; }
@@ -769,8 +792,12 @@ main, .site-footer { overflow-x: clip; }
 
   .site-footer { padding-top: 48px; }
   .site-footer__grid { gap: 32px 16px; }
-  .brand--footer .brand__name { font-size: 34px; }
+  .brand--footer .brand__logo { height: 26px; }
   .site-footer__bottom { flex-direction: column-reverse; align-items: flex-start; margin-top: 32px; }
+}
+
+@media (max-width: 380px) {
+  .brand__logo { height: 17px; }
 }
 
 @media (pointer: coarse) {

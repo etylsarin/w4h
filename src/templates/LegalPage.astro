@@ -1,0 +1,32 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { format, toLocale, useTranslations } from '../i18n';
+import { pageUrl, type LegalId } from '../i18n/routes';
+
+interface Props {
+  page: LegalId;
+}
+
+const { page } = Astro.props;
+const locale = toLocale(Astro.currentLocale);
+const t = useTranslations(locale);
+const entry = await getEntry('legal', `${locale}/${page}`);
+if (!entry) throw new Error(`Missing src/content/legal/${locale}/${page}.md`);
+const { Content } = await render(entry);
+const effective = new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'numeric', year: 'numeric' }).format(entry.data.updated);
+---
+
+<BaseLayout page={page} title={`${entry.data.title} – W4H | Preadico`} description={entry.data.description}>
+  <article class="section legal" aria-labelledby="legal-title">
+    <div class="container legal__inner">
+      <Breadcrumb items={[{ label: t.breadcrumb.home, href: pageUrl('index', locale) }, { label: entry.data.title }]} />
+      <h1 class="h2 legal__title" id="legal-title">{entry.data.title}</h1>
+      <div class="prose">
+        <Content />
+      </div>
+      <p class="legal__effective">{format(t.legalPage.effective, { date: effective })}</p>
+    </div>
+  </article>
+</BaseLayout>

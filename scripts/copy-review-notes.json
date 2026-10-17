@@ -1,0 +1,19 @@
+{
+  "confirm": [
+    "Company details on the legal pages and in the privacy policy (address, IČ, DIČ, Commercial Register entry, data box) come from preadico.cz and the public register (ARES). Please check they are current.",
+    "MDR: the hero badge says “MDR” and the trust strip says “certifikovaný zdravotnický prostředek” (certified medical device). preadico.cz says the device will be certified under MDR from 30 June 2026. Please confirm the certification is in place and the wording is right.",
+    "EWS: the copy calls it “britská metodika EWS (Early Warning System)”. The British method is usually called the National Early Warning Score (NEWS2). Please confirm the name to use.",
+    "Privacy policy: keeping demo requests for at most 2 years after the last contact is a proposal. Please confirm it, and the legal bases, before the policy is relied on.",
+    "Privacy policy: it describes the current hosting, GitHub Pages (GitHub, Inc., USA, covered by the EU–US Data Privacy Framework). It needs updating if the site moves to other hosting or when the demo form is connected to a form or email service.",
+    "Legal information: the paragraph “O systému W4H / About the W4H system” is a general disclaimer for a medical device. Please have it checked against the rules for advertising medical devices.",
+    "The English texts are a translation written for this website. Please have them reviewed by a native speaker.",
+    "Patient names and values (e.g. “Vzorový, Milan”) are fictitious samples and stay the same in both languages. Text drawn inside the illustrations is listed at the end of this document."
+  ],
+  "seo": [
+    "Each solution page’s main heading is only the product name (e.g. “W4H Hospital”). Consider working in what the page is about, such as “monitoring pacientů v nemocnici” / “patient monitoring in hospitals”, in the heading, tag or lead.",
+    "No solution page uses the phrase “monitoring pacientů” (“patient monitoring”) in its visible text, and the W4H Clinic page never says “vzdálený monitoring” (“remote monitoring”) although its search title does. Using the key phrase once in the lead helps search engines match the page to searches.",
+    "Most of each solution page (How it works, Devices, trust strip, demo form) is shared with the other pages. 150–300 words written for each solution alone, such as typical use, benefits for staff or a short FAQ, would make the pages stronger in search. preadico.cz lists further points for each solution that could be used.",
+    "The site does not yet use some terms people search for: “telemedicína”, “vzdálený monitoring pacientů”, “monitoring vitálních funkcí” (EN “remote patient monitoring”, “vital signs monitoring”).",
+    "Search titles and descriptions are now within the recommended lengths (about 60 and 160 characters). Please keep them within these limits when editing."
+  ]
+}
