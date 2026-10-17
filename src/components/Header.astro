@@ -3,7 +3,7 @@ import Icon from './Icon.astro';
 import logo from '../assets/img/logo-preadico.svg';
 import { navIds } from '../data/site';
 import { localeLabels, locales, toLocale, useTranslations } from '../i18n';
-import { isSolution, pageUrl, type PageId } from '../i18n/routes';
+import { isSolution, pageUrl, solutionIds, type PageId } from '../i18n/routes';
 
 interface Props {
   page: PageId;
@@ -20,6 +20,15 @@ const sectionHref = (id: string) => (onHome ? `#${id}` : `${home}#${id}`);
 const demoHref = onHome || isSolution(page) ? '#kontakt' : `${home}#kontakt`;
 /** On a solution page, "Řešení" is the current section. */
 const isCurrent = (id: string) => (isSolution(page) && id === 'reseni' ? 'true' : undefined);
+/** "Řešení" opens a submenu with the three solution pages. */
+const tints = { hospital: 'ice', clinic: 'sand', homeCare: 'blush' } as const;
+const solutionLinks = solutionIds.map((id) => ({
+  href: pageUrl(id, locale),
+  title: t.solutions.items[id].title,
+  text: t.details[id].tag,
+  tint: tints[id],
+  current: page === id ? ('page' as const) : undefined,
+}));
 ---
 
 <header class="site-header" data-header>
@@ -30,7 +39,29 @@ const isCurrent = (id: string) => (isSolution(page) && id === 'reseni' ? 'true' 
 
     <nav class="main-nav" aria-label={t.header.navLabel}>
       <ul class="main-nav__list">
-        {navIds.map((id) => (
+        {navIds.map((id) => id === 'reseni' ? (
+          <li class="nav-item--sub" data-submenu>
+            <button
+              type="button"
+              class="nav-link"
+              aria-expanded="false"
+              aria-controls="submenu-reseni"
+              data-submenu-toggle
+              data-spy={onHome ? id : undefined}
+              aria-current={isCurrent(id)}
+            >{t.nav[id]}<Icon name="chevron" class="nav-link__chevron" /></button>
+            <ul class="submenu" id="submenu-reseni">
+              {solutionLinks.map((s) => (
+                <li>
+                  <a href={s.href} style={`--c:var(--${s.tint})`} aria-current={s.current}>
+                    <span class="submenu__title">{s.title}</span>
+                    <span class="submenu__text">{s.text}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ) : (
           <li><a class="nav-link" href={sectionHref(id)} data-spy={onHome ? id : undefined} aria-current={isCurrent(id)}>{t.nav[id]}</a></li>
         ))}
       </ul>
@@ -70,7 +101,16 @@ const isCurrent = (id: string) => (isSolution(page) && id === 'reseni' ? 'true' 
   <div class="mobile-menu" id="mobilni-menu" data-menu hidden>
     <nav aria-label={t.header.mobileNavLabel}>
       <ul class="mobile-menu__list">
-        {navIds.map((id) => <li><a href={sectionHref(id)} aria-current={isCurrent(id)}>{t.nav[id]}</a></li>)}
+        {navIds.map((id) => id === 'reseni' ? (
+          <li>
+            <span class="mobile-menu__label" id="mobilni-menu-reseni">{t.nav[id]}</span>
+            <ul class="mobile-menu__sub" aria-labelledby="mobilni-menu-reseni">
+              {solutionLinks.map((s) => <li><a href={s.href} aria-current={s.current}>{s.title}</a></li>)}
+            </ul>
+          </li>
+        ) : (
+          <li><a href={sectionHref(id)}>{t.nav[id]}</a></li>
+        ))}
       </ul>
     </nav>
     <a class="btn btn--primary btn--block" href={demoHref}>{t.common.bookDemo}</a>
@@ -78,7 +118,7 @@ const isCurrent = (id: string) => (isSolution(page) && id === 'reseni' ? 'true' 
 </header>
 
 <script>
-  import { $, $$ } from '../scripts/dom';
+  import { $, $$, finePointer } from '../scripts/dom';
 
   /* Hlavička: kompaktní stav po odscrollování */
   function initHeader() {
@@ -141,6 +181,47 @@ const isCurrent = (id: string) => (isSolution(page) && id === 'reseni' ? 'true' 
     });
   }
 
+  /* Podnabídka „Řešení“: tlačítko ji otevře a zavře (aria-expanded), myší se otevře najetím.
+     Zavře ji Esc, klik mimo nebo odchod fokusu z položky. */
+  function initSubmenu() {
+    $$('[data-submenu]').forEach((item) => {
+      const toggle = $('[data-submenu-toggle]', item)!;
+      let closeTimer: ReturnType<typeof setTimeout> | undefined;
+      let openedByHover = false;
+      const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+      const set = (open: boolean) => {
+        clearTimeout(closeTimer);
+        toggle.setAttribute('aria-expanded', String(open));
+        if (!open) openedByHover = false;
+      };
+
+      toggle.addEventListener('click', () => {
+        // Klik hned po otevření najetím myši menu nezavírá.
+        if (openedByHover) { openedByHover = false; return; }
+        set(!isOpen());
+      });
+      item.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isOpen()) { set(false); toggle.focus(); }
+      });
+      item.addEventListener('focusout', (e) => {
+        if (!item.contains(e.relatedTarget as Node | null)) set(false);
+      });
+      document.addEventListener('click', (e) => {
+        if (isOpen() && !item.contains(e.target as Node)) set(false);
+      });
+      if (finePointer.matches) {
+        item.addEventListener('pointerenter', (e) => {
+          if (e.pointerType !== 'mouse') return;
+          if (!isOpen()) openedByHover = true;
+          set(true);
+        });
+        item.addEventListener('pointerleave', (e) => {
+          if (e.pointerType === 'mouse') closeTimer = setTimeout(() => set(false), 200);
+        });
+      }
+    });
+  }
+
   /* Přepínač jazyka: odkazy na jazykové verze stránky.
      Pilulka se posune hned po kliknutí a návštěvník zůstane u stejné sekce (#kotva). */
   function initLang() {
@@ -183,6 +264,7 @@ const isCurrent = (id: string) => (isSolution(page) && id === 'reseni' ? 'true' 
 
   initHeader();
   initMenu();
+  initSubmenu();
   initLang();
   initScrollspy();
 </script>
